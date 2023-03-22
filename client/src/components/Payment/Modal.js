@@ -31,7 +31,7 @@ const Modal = ({ setOpen, open, invoice}) => {
     paidBy: ''
 })
 
-const [selectedDate, setSelectedDate] = React.useState(new Date());
+const [selectedDate, setSelectedDate] = React.useState(moment(new Date()).format('YYYY-MM-DD'));
 //Crate a state to handle the payment records
   const [paymentRecords, setPaymentRecords] = useState([])
   const [method, setMethod] = useState({})
@@ -97,7 +97,7 @@ const [selectedDate, setSelectedDate] = React.useState(new Date());
   
   return (
     <div>
-      <Dialog
+            <Dialog
               open={open}
               onClose={handleClickClose}
               aria-labelledby="alert-dialog-title"
@@ -115,27 +115,30 @@ const [selectedDate, setSelectedDate] = React.useState(new Date());
                 variant="standard"
                 type="date"
                 value={selectedDate}
+                required
                 onChange={ (e) => setSelectedDate(moment(new Date(e.target.value)).format("YYYY-MM-DD"))}
                 sx={{width:"100%", marginBottom:"10px"}}
 
                 />
               </div>
-                        <TextField
-                        id="outlined-size-normal"
-                        label="Amount Paid"
-                        name="amountPaid"
-                        type="number"
-                        InputProps={{ inputProps: { min: "0", step: "1" } }}
-                        sx={{width:"100%", marginBottom:"10px"}}
-                        onChange = { e => setPayment({ ...payment, amountPaid: e.target.value})} 
-                        value = {payment.amountPaid.toFixed(2)}
-                      />
+                <TextField
+                  id="outlined-size-normal"
+                  label="Amount Paid"
+                  name="amountPaid"
+                  type="number"
+                  InputProps={{ inputProps: { min: "0", step: "1" } }}
+                  sx={{width:"100%", marginBottom:"10px"}}
+                  onChange = { e => setPayment({ ...payment, amountPaid: e.target.value})} 
+                  value = {payment.amountPaid.toFixed(2)}
+                  required
+                />
 
                 <TextField
                 id="filled-select-currency"
                 select
                 required
                 label="Select Type"
+                defaultValue='Bank Transfer'
                 sx={{width:"100%", marginBottom:"10px"}}
                 >
                 {paymentMethods.map((option) => (
@@ -144,24 +147,25 @@ const [selectedDate, setSelectedDate] = React.useState(new Date());
                     </MenuItem>
                 ))}
                 </TextField>
-                        <TextField
-                        label="Note"
-                        name="note"
-                        type="text"
-                        sx={{width:"100%"}}
-                        onChange = { e => setPayment({ ...payment, note: e.target.value})} 
-                        value = {payment.note}
-                      />
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white"}}>Close</Button>
-                        <Button onClick={(e) => {
-                            handleSubmit(e)
-                        }} autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
-                          Save Record
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
+
+                <TextField
+                  label="Note"
+                  name="note"
+                  type="text"
+                  sx={{width:"100%"}}
+                  onChange = { e => setPayment({ ...payment, note: e.target.value})} 
+                  value = {payment.note}
+                />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white"}}>Close</Button>
+                  <Button onClick={(e) => {
+                      handleSubmit(e)
+                  }} autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
+                    Save Record
+                  </Button>
+                </DialogActions>
+                </Dialog>
     </div>
   )
 }

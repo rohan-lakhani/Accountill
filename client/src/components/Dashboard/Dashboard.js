@@ -56,68 +56,6 @@ const columns = [
     return { name, date, amount, paymentMethod, note };
   }
 
-// const columns = [
-//     { id: 'name', label: 'Name', minWidth: 170 },
-//     { id: 'category', label: 'Category', minWidth: 100 },
-//     {
-//       id: 'price',
-//       label: 'Price',
-//       minWidth: 170,
-//       align: 'left',
-//       format: (value) => value.toLocaleString('en-US'),
-//     },
-//     {
-//       id: 'quantity',
-//       label: 'Quantity',
-//       minWidth: 170,
-//       align: 'left',
-//       format: (value) => value.toLocaleString('en-US'),
-//     },
-//     {
-//       id: 'value',
-//       label: 'Value',
-//       minWidth: 170,
-//       align: 'left',
-//       format: (value) => value.toFixed(2),
-//     },
-//     {
-//       id: 'action',
-//       label: 'Action',
-//       minWidth: 170,
-//       align: 'left',
-//       format: (value) => value.toFixed(2),
-//     },
-//   ];
-
-
-//   function createData(name, category, price, quantity) {
-//     const value = quantity * price;
-//     return { name, category, price, quantity, value };
-//   }
-
-//   let data=[];
-//   data.push()
-  
-  const rows = [
-    createData('India the great', 'IN', 1324171354, 3287263, "hello", "hello"),
-    createData('China', 'CN', 1403500365, 9596961, "hello"),
-    createData('Italy', 'IT', 60483973, 301340, "hello"),
-    createData('United States', 'US', 327167434, 9833520, "hello"),
-    createData('Canada', 'CA', 37602103, 9984670, "hello"),
-    createData('Australia', 'AU', 25475400, 7692024, "hello"),
-    createData('Germany', 'DE', 83019200, 357578, "hello"),
-    createData('Ireland', 'IE', 4857000, 70273, "hello"),
-    createData('Mexico', 'MX', 126577691, 1972550, "hello"),
-    createData('Japan', 'JP', 126317000, 377973, "hello"),
-    createData('France', 'FR', 67022000, 640679, "hello"),
-    createData('United Kingdom', 'GB', 67545757, 242495, "hello"),
-    createData('Russia', 'RU', 146793744, 17098246, "hello"),
-    createData('Nigeria', 'NG', 200962417, 923768, "hello"),
-    createData('Brazil', 'BR', 210147125, 8515767, "hello"),
-  ];
-
-
-
 const Dashboard = () => {
 
   useRedirectLoggedOutUser("/login");
@@ -285,7 +223,8 @@ const Dashboard = () => {
 
         <h1 className='text-center my-4 text-2xl font-medium'>Recent Payments</h1>
 
-        <div>
+        {paymentHistory.length!==0 ? 
+        (<div>
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
@@ -322,7 +261,7 @@ const Dashboard = () => {
             <TablePagination
               rowsPerPageOptions={[3, 5, 10, 25, 100]}
               component="div"
-              count={rows.length}
+              count={sortHistoryByDate.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -330,7 +269,12 @@ const Dashboard = () => {
               style={{color:"black", fontWeight:"bold"}}
             />
           </Paper>
-        </div>
+        </div>) : (
+          <p className='bg-red-500 text-2xl p-2 text-white rounded-md' 
+          style={{textAlign: 'center',backgroundColor: 'rgb(30, 40, 64)'}}>
+            -- No Recent Payments --
+          </p>
+        )}
       </div>
     </div>
   )

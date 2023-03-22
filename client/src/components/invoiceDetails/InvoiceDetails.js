@@ -390,7 +390,7 @@ const InvoiceDetails = () => {
                 </div>
                 <div className='flex justify-between px-2 py-1 border-b-2 border-gray-400'>
                   <h1>Balance</h1>
-                  <h1 className='font-bold'>{currency} {toCommas(total - totalAmountReceived)}</h1>
+                  <h1 className='font-bold'>{currency} {toCommas((total - totalAmountReceived).toFixed(2))}</h1>
                 </div>
               </div>
             </div>
@@ -413,7 +413,7 @@ const InvoiceDetails = () => {
             
             {invoiceData.notes !== undefined ? (
               <div className='mb-20'>
-                <h1 className='font-bold'>Note / Payment Info:-</h1>
+                <h1 className='font-bold'>Note/Payment Info:-</h1>
                 <p className='text-sm w-full h-24 p-2 border-zinc-600 border-2 rounded-md'>{invoiceData.notes}</p>
               </div>
             ): (

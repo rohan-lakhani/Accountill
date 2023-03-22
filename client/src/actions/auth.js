@@ -49,8 +49,10 @@ export const signup =(formData, setLoading) => async(dispatch) => {
 export const forgot =(formData) => async(dispatch) => {
     try {
         await api.forgot(formData)
+        toast.success("Reset Email Sent");
     } catch (error) {
         console.log(error)
+        toast.error(error?.response?.data?.message)
     }
 }
 

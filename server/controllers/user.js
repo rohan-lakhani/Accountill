@@ -177,7 +177,7 @@ export const forgotPassword = asyncHandler(async(req,res) => {
         <h2>Hello ${user.name}</h2>
         <p>You requested for password reset from Arc Invoicing application</p>
         <p>This reset link is valid for only 30minutes.</p>
-        <h5>Please click this <a href="${process.env.FRONTEND_URL}/reset/${resetToken}">link</a> to reset your password</h5>
+        <h5>Please click this <a href="http://localhost:3000/reset/${resetToken}">link</a> to reset your password</h5>
         <p>Link not clickable?, copy and paste the following url in your address bar.</p>
         <p>${process.env.FRONTEND_URL}/reset/${resetToken}</p>
         <P>If this was a mistake, just ignore this email and nothing will happen.</P>
