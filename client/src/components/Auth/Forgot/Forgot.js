@@ -3,14 +3,15 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { forgot } from "../../../actions/auth.js";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Spinner from '../../Spinner/Spinner.js';
 
 const Forgot = () => {
     const [form, setForm] = useState("");
-    const [step, setStep] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("profile"));
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +23,7 @@ const Forgot = () => {
     if(user){
         navigate('/dashboard');
     }
+
   return (
     <div>
         <div className='flex justify-center items-center h-[90vh]'>

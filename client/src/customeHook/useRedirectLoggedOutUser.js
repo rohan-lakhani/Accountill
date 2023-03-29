@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // import { getLoginStatus } from '../services/authServices';
 import { toast } from 'react-toastify';
 import { getLoginStatus, logoutUser } from '../actions/auth';
-import { AUTH, LOGOUT } from '../actions/constants';
+import { AUTH, LOGOUT, END_LOADING } from '../actions/constants';
 
 
 const useRedirectLoggedOutUser = (path) => {
@@ -19,6 +19,7 @@ const useRedirectLoggedOutUser = (path) => {
                 await logoutUser();
                 await dispatch({ type: LOGOUT });
                 toast.info("Session expired, please login to continue.");
+                dispatch({ type: END_LOADING })
                 navigate(path);
                 return;
             }

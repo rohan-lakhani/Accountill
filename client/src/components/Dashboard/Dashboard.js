@@ -126,11 +126,11 @@ const Dashboard = () => {
       </div>
     }
 
-    if(invoices.length === 0) {
-      return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
-      <p style={{padding: '40px', color: 'gray'}}>Nothing to display. Click the plus icon to start creating</p>
-      </div>
-    }
+    // if(invoices.length === 0) {
+    //   return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+    //   <p style={{padding: '40px', color: 'gray'}}>Nothing to display. Click the plus icon to start creating</p>
+    //   </div>
+    // }
 
   return (
     <div className='ml-16 pb-4 bg-gray-200' style={{minHeight: "92.7vh"}}>

@@ -176,3 +176,10 @@ export const deleteProfile = asyncHandler(async(req,res) => {
         throw new Error("Profile not exist with this Id");
     }
 })
+
+
+
+
+
+
+

@@ -1,19 +1,20 @@
 import * as api from '../api/index'
-import { AUTH, CREATE_PROFILE } from './constants'
+import { AUTH, CREATE_PROFILE, END_LOADING, START_LOADING } from './constants'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 
 
-export const signin =(formData, setLoading) => async(dispatch) => {
+export const signin =(formData) => async(dispatch) => {
 
     try {
+        dispatch({ type: START_LOADING })
         //login the user
         const { data } = await api.signIn(formData)
         console.log("data", data);
 
         dispatch({ type: AUTH, data })
-        // setLoading(false)
+        dispatch({ type: END_LOADING })
         toast.success("Signin successfull")
         // history.push('/dashboard')
         window.location.href="/dashboard"
@@ -21,26 +22,27 @@ export const signin =(formData, setLoading) => async(dispatch) => {
     } catch (error) {
         // console.log(error?.response?.data?.message)
         toast.error(error?.response?.data?.message)
-        setLoading(false)
+        dispatch({ type: END_LOADING })
     }
 }
 
-export const signup =(formData, setLoading) => async(dispatch) => {   
+export const signup =(formData) => async(dispatch) => {   
 
     try {
+        dispatch({ type: START_LOADING })
         //Sign up the user
         const { data } = await api.signUp(formData)
         dispatch({ type: AUTH, data})
-        const { info } = await api.createProfile({name: data?.result?.name, email: data?.result?.email, userId: data?.result?._id, phoneNumber: '', businessName: '', contactAddress: '', logo: '', website: ''});
+        const { info } = await api.createProfile({name: data?.result?.name, email: data?.result?.email, userId: data?.result?._id, phoneNumber: '', businessName: '', contactAddress: '', logo: '', website: '', paymentDetails: ''});
         dispatch({ type: CREATE_PROFILE, payload: info });
+        dispatch({ type: END_LOADING })
+        toast.success("Sign up successfully")
         window.location.href="/dashboard"
-        // history.push('/dashboard')
-        toast.success("Sign up successfull")
 
     } catch (error) {
         console.log(error)
         toast.error(error?.response?.data?.message)
-        setLoading(false)
+        dispatch({ type: END_LOADING })
     }
 }
 
@@ -58,18 +60,18 @@ export const forgot =(formData) => async(dispatch) => {
 
 
 export const reset =(formData) => async(dispatch) => {
-    const navigate = useNavigate();
     try {
         await api.reset(formData)
-        navigate('/dashboard');
-
+        toast.success("Password reset successfully");
+        window.location.href="/login"
     } catch (error) {
-        alert(error)
+        console.log(error)
+        toast.error(error?.response?.data?.message)
     }
 }
 
 //LOGOUT USER
-export const logoutUser = async () => {
+export const logoutUser = async (dispatch) => {
     try{
         await api.logout();
     }catch(error){

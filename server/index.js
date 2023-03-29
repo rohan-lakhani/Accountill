@@ -68,7 +68,8 @@ app.post('/send-pdf',(req,res) => {
             html: emailTemplate(req.body), // html body
             attachments: [{
                 filename: 'invoice.pdf',
-                path: `${__dirname}/invoice/pdf`
+                path: `${__dirname}/invoice.pdf`,
+                contentType: 'application/pdf'
             }]
         });
 

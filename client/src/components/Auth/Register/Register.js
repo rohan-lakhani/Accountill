@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../../../actions/auth';
+import Spinner from '../../Spinner/Spinner';
 // import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 // import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 
@@ -20,9 +21,11 @@ const Register = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [isLoading,setIsLoading] = useState(false);
     const [formData,setFormData] = useState(initialState);
     const { firstName, lastName, email, password, password2 } = formData;
+    const isLoading = useSelector(state => state.auth.isLoading);
+
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -52,9 +55,15 @@ const Register = () => {
             password,
             confirmPassword: password2
         };
-        dispatch(signup(formData, setIsLoading))
-        setIsLoading(true);
+        dispatch(signup(formData))
     }
+
+    if(isLoading) {
+        return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+            <Spinner />
+        </div>
+      }
+
   return (
     <div>
         <div className='flex justify-center items-center h-[90vh]'>

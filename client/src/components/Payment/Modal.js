@@ -26,7 +26,7 @@ const Modal = ({ setOpen, open, invoice}) => {
   const [payment, setPayment] = useState({
     amountPaid: 0,
     datePaid: moment(new Date()).format("YYYY-MM-DD"),
-    paymentMethod: '',
+    paymentMethod: 'Bank Transfer',
     note: '',
     paidBy: ''
 })
@@ -34,7 +34,7 @@ const Modal = ({ setOpen, open, invoice}) => {
 const [selectedDate, setSelectedDate] = React.useState(moment(new Date()).format('YYYY-MM-DD'));
 //Crate a state to handle the payment records
   const [paymentRecords, setPaymentRecords] = useState([])
-  const [method, setMethod] = useState({})
+  const [method, setMethod] = useState('Bank Transfer')
   const [totalAmountReceived, setTotalAmountReceived] = useState(0)
   const [updatedInvoice, setUpdatedInvoice] = useState({})
 
@@ -129,7 +129,7 @@ const [selectedDate, setSelectedDate] = React.useState(moment(new Date()).format
                   InputProps={{ inputProps: { min: "0", step: "1" } }}
                   sx={{width:"100%", marginBottom:"10px"}}
                   onChange = { e => setPayment({ ...payment, amountPaid: e.target.value})} 
-                  value = {payment.amountPaid.toFixed(2)}
+                  value = {payment.amountPaid}
                   required
                 />
 

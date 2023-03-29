@@ -9,44 +9,51 @@ import { makeStyles } from '@mui/styles';
 import {useTheme} from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 
-
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import MailIcon from '@mui/icons-material/Mail';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
-const useStyles = makeStyles(() => ({
-    root: {
-      width: '100%',
-      maxWidth: 450,
-      // backgroundColor: "#EEEEEE",
-    },
-    large: {
-      width: useTheme().spacing(12),
-      height: useTheme().spacing(12),
-    },
-  }));
+import * as api from '../../api/index.js';
+
+
+// const Styles = makeStyles(() => ({
+//     root: {
+//       width: '100%',
+//       maxWidth: 450,
+//       // backgroundColor: "#EEEEEE",
+//     },
+//     large: {
+//       width: useTheme().spacing(12),
+//       height: useTheme().spacing(12),
+//     },
+//   }));
 
 const Settings = () => {
 
-    useRedirectLoggedOutUser("/login");
+  useRedirectLoggedOutUser("/login");
 
-    const user = JSON.parse(localStorage.getItem('profile'));
-
-    const navigate = useNavigate();
-
-    if(!user){
-      navigate('/login');
-    }
-
-    const location = useLocation();
     const dispatch = useDispatch();
-    const classes = useStyles();
-    const { profiles } = useSelector((state) => state.profiles)
+    const [isEdit, setIsEdit] = useState(false);
     const [form, setForm] = useState();
     const [logo, setLogo] = useState("");
-    const [isEdit, setIsEdit] = useState(false);
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const [profiles,setProfiles] = useState({});
+    
+    useEffect(() => {
+
+      const getProfile = async (searchQuery) => {
+          try {
+            const { data: { data } } = await api.fetchProfilesByUser(searchQuery)
+            setProfiles(data);
+            dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
+          } catch (error) {
+            console.log(error.response)
+          }
+        }
+        getProfile({ search: user?.result?._id });
+
+    },[isEdit]);
 
     useEffect(() => {
       if(isEdit === true){
@@ -54,11 +61,14 @@ const Settings = () => {
       }
     },[isEdit])
 
-    useEffect(() => {
-      dispatch(getProfilesByUser({ search: user?.result?._id}))
-    },[location, isEdit]);
+    // const classes = Styles();
 
-    localStorage.setItem('profileDetails', JSON.stringify({...profiles}))
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const setEdit = (e) => setIsEdit(true);
+
+    const handleLogoChange = (e) => {
+      setLogo(e.target.files[0]);
+    }
 
     const handleSubmit = async(e) => {
       e.preventDefault();
@@ -69,16 +79,9 @@ const Settings = () => {
       formData.append("businessName",form.businessName);
       formData.append("contactAddress",form.contactAddress);
       formData.append("userId",user?.result?._id);
-      formData.append("paymentDetails",form.paymentDetails);
       formData.append("logo",logo);
-      await dispatch(updateProfile(profiles?._id, formData));
+      dispatch(updateProfile(profiles?._id, formData));
       setIsEdit(false);
-    }
-
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-    const handleLogoChange = (e) => {
-      setLogo(e.target.files[0]);
     }
 
   return (
@@ -90,9 +93,9 @@ const Settings = () => {
         </div>
         <div className='bg-white border-2 border-gray-400 rounded-md p-4 w-1/3 mx-auto mt-6'>
           <div className='mx-auto border-b-2 border-gray-400 pb-6'>
-            <Avatar alt={profiles?.businessName} src={profiles?.logo?.filePath} sx={{ width: 75, height: 75, border:"2px #9ca3af solid" }} style={{margin:"auto", fontSize:"50px"}} className={classes.large}/>
+            <Avatar alt={profiles?.businessName} src={profiles?.logo?.filePath} sx={{ width: 75, height: 75, border:"2px #9ca3af solid" }} style={{margin:"auto", fontSize:"50px"}}/>
           </div>
-          {!isEdit && (
+          {isEdit === false ? (
             <div className='mt-4'>
               <div className='flex flex-col'>
 
@@ -115,23 +118,15 @@ const Settings = () => {
                     <MailIcon/>
                     <h1 className='ml-6 text-lg'>{profiles?.email}</h1>
                   </div>
-
-                  <div className='flex my-1'>
-                    <AccountBalanceWalletIcon/>
-                    <h1 className='ml-6 text-lg'>{profiles?.paymentDetails}</h1>
-                  </div>
               </div>
 
               <div className='flex justify-center'>
               <button className="btn btn-sm text-2xl mt-4 normal-case bg-blue-600 text-white
-              hover:bg-blue-400 border-none hover:text-black w-full h-12" type='submit' onClick={() => setIsEdit(true)} >Edit Profile</button>
+              hover:bg-blue-400 border-none hover:text-black w-full h-12" type='submit' onClick={() => setEdit()} >Edit Profile</button>
               </div>
             </div>
-          )}
-
-          
-          { isEdit && (
-              <div className='mt-4'>
+          ):(
+            <div className='mt-4'>
                 <form onSubmit={handleSubmit}>
                 <input type="file" className="file-input file-input-bordered w-full max-w-full mt-2" name='logo' onChange={(e) => handleLogoChange(e)}/>
 
@@ -141,7 +136,7 @@ const Settings = () => {
                 label="Phone Number"
                 type="text"
                 name='phoneNumber'
-                value={form?.phoneNumber}
+                value={form?.phoneNumber || ""}
                 onChange={handleChange}
                 sx={{width:"100%"}}
                 />
@@ -152,7 +147,7 @@ const Settings = () => {
                   label="Business Name"
                   type="text"
                   name='businessName'
-                  value={form?.businessName}
+                  value={form?.businessName || ""}
                   onChange={handleChange}
                   sx={{width:"100%"}}
                   />
@@ -162,32 +157,19 @@ const Settings = () => {
                   label="Contact Address"
                   type="text"
                   name='contactAddress'
-                  value={form?.contactAddress}
+                  value={form?.contactAddress || ""}
                   onChange={handleChange}
-                  sx={{width:"100%"}}
-                  />
-                </div>
-                <div className='my-4 w-full'>
-                  <TextField
-                  label="Payment Details / Notes"
-                  type="text"
-                  name='paymentDetails'
-                  value={form?.paymentDetails}
-                  onChange={handleChange}
-                  multiline
-                  rows={3}
                   sx={{width:"100%"}}
                   />
                 </div>
                 <div className='flex justify-center'>
                 <button className="btn btn-sm text-2xl mt-4 normal-case bg-blue-600 text-white
-                hover:bg-blue-400 border-none hover:text-black w-full h-12" type='submit' onClick={() => setIsEdit(true)} >Update Profile</button>
+                hover:bg-blue-400 border-none hover:text-black w-full h-12" type='submit' onClick={() => setEdit()} >Update Profile</button>
                 </div>
                 </form>
                 
               </div>
-            )
-          }
+          )}
 
         </div>
       </div>

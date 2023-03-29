@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem('profile'));
+
+  console.log(user != null);
+  
+  useEffect(() => {
+    if(user!=null) {
+      navigate('/dashboard')
+    }
+  }, [])
+
+
   return (
     <div className='flex flex-col pt-12 w-3/4 m-auto'>
         <h1 className='text-center text-5xl font-medium m-auto' style={{width:"65%"}}>Easiest invoicing for freelancers and small businesses</h1>

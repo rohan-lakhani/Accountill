@@ -25,7 +25,7 @@ export const fetchClientByUser = (searchQuery) => axios.get(`/clients/user?searc
 export const signIn = (formData) => axios.post('/users/signin', formData);
 export const signUp = (formData) => axios.post('/users/signup', formData);
 export const forgot = (formData) => axios.post('/users/forgot', formData);
-export const reset = (formData) => axios.post('/users/reset', formData);
+export const reset = (formData) => axios.put('/users/reset', formData);
 export const logout = () => axios.get('/users/logout');
 export const loginStatus = () => axios.get('/users/loggedIn');
 

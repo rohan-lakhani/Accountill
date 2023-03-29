@@ -1,31 +1,37 @@
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { Link, useParams } from 'react-router-dom';
-import { reset } from "../../../actions/auth.js";
-import { useDispatch } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { reset, forgot } from "../../../actions/auth";
+import { useDispatch, useSelector } from 'react-redux';
+import Spinner from '../../Spinner/Spinner';
+import { END_LOADING, START_LOADING } from '../../../actions/constants';
 
-
-  const initialState = {
-    password: "",
-    password2: "",
-  };
 
 const Reset = () => {
 
-    const [form, setForm] = useState("");
-    // const { password, password2 } = formData;
-    const { resetToken } = useParams();
-    const dispatch = useDispatch();
+  // const classes = useStyles();
+  const [form, setForm] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { token } = useParams()
+  const user = JSON.parse(localStorage.getItem('profile'));
 
-    const handleInputChange = (e) => {
-        setForm(e.target.value);
-    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        dispatch(reset({ password: form, token: resetToken}))   
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(reset({ password: form, token: token}))
+  }
+
+  const handleChange = (e) => setForm(e.target.value);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
+
+  if(user){
+    navigate('/dashboard');
+  }
+
+
   return (
     <div>
         <div className='flex justify-center items-center h-[90vh]'>
@@ -34,7 +40,7 @@ const Reset = () => {
                 </button>
                 <div class="p-4 w-4/5 sm:w-3/4 md:w-1/2 lg:w-1/4 bg-slate-700 rounded-xl">
                 <form class="form-control flex justify" onSubmit={handleSubmit}>
-                    <input type="password" placeholder="New Password" required name='password' onChange={handleInputChange} class="input"/>
+                    <input type="password" placeholder="New Password" required name='password' onChange={handleChange} class="input"/>
 {/* 
                     <input type="password" placeholder="Confrim Password" required name='password2' onChange={handleInputChange} class="input mt-2"/> */}
 

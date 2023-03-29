@@ -11,11 +11,11 @@ import Forgot from './components/Auth/Forgot/Forgot.js';
 import Reset from './components/Auth/Reset/Reset.js';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddIconFooter from './components/addIconFooter/AddIconFooter';
-import Settings from './components/settings/Settings';
 import Invoice from './components/invoice/Invoice';
 import Invoices from './components/Invoices/Invoices';
 import InvoiceDetails from './components/invoiceDetails/InvoiceDetails';
 import Clients from './components/Clients/Clients';
+import Settings from './components/Settings/Settings'
 
 
 

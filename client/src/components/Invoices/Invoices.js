@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useRedirectLoggedOutUser from '../../customeHook/useRedirectLoggedOutUser';
+import image_1 from "../../images/image_1.jpeg";
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -147,9 +148,9 @@ const Invoices = () => {
     }
 
     if(invoices.length === 0) {
-      return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px', margin: '80px'}}>
-      <p style={{padding: '40px', color: 'gray', textAlign: 'center'}}>No invoice yet. Click the plus icon to create invoice</p>
-    
+      return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+      <img src={image_1} alt="emptyIcon"/>
+      <p style={{color: 'gray', textAlign: 'center'}} className="text-xl">No invoice yet. Click the plus icon to add Invoice</p>
       </div>
     }
 
@@ -178,7 +179,7 @@ const Invoices = () => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((invoice) => {
                 return (
-                  <TableRow  role="checkbox" tabIndex={-1} key={invoice._id}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={invoice._id}>
                     <TableCell onClick={() => openInvoice(invoice._id)}>{invoice.invoiceNumber}</TableCell>
 
                     <TableCell onClick={() => openInvoice(invoice._id)}>{invoice.client.name}</TableCell>

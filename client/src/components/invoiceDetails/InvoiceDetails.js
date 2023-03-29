@@ -45,6 +45,7 @@ import { getInvoice } from '../../actions/invoiceActions';
 import Modal from '../Payment/Modal';
 import PaymentHistory from './PaymentHistory';
 import Spinner from '../Spinner/Spinner';
+import { toast } from 'react-toastify';
 
 const columns = [
     { id: 'item', label: 'Item', minWidth: 200 },
@@ -235,9 +236,13 @@ const InvoiceDetails = () => {
             status: invoice.status,
             totalAmountReceived: toCommas(totalAmountReceived),
             balanceDue: toCommas(total - totalAmountReceived),
+            link: `http://localhost:3000/invoice/${invoice._id}`,
             company: company,
         })
-        .then(() => setSendStatus('success'))
+        .then(() => {
+          toast.success("Invoice send successfully")
+          setSendStatus('success')
+        })
         .catch((error) =>{
             console.log(error)
             setSendStatus('error')
@@ -326,7 +331,7 @@ const InvoiceDetails = () => {
                         <h1 className='text-xs text-gray-500 mt-2'>Date</h1>
                         <h1 className='font-medium'>{moment().format("MMM Do YYYY")}</h1>
                         <h1 className='text-xs text-gray-500 mt-2'>Due Date</h1>
-                        <h1 className='font-medium'>{selectedDate? moment(selectedDate).format('YYYY-MM-DD') : '27 sep 2023'}</h1>
+                        <h1 className='font-medium'>{selectedDate? moment(selectedDate).format("MMM Do YYYY") : '27 sep 2023'}</h1>
                         <h1 className='text-xs text-gray-500 mt-2'>AMOUNT</h1>
                         <h1 className='font-medium text-2xl'>{currency} {toCommas(total)}</h1>
                 </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useRedirectLoggedOutUser from '../../customeHook/useRedirectLoggedOutUser';
+import image_1 from "../../images/image_1.jpeg";
 
 import { deleteClient, getClientsByUser, updateClient } from '../../actions/clientActions'
 
@@ -24,6 +25,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+
 
 
 const columns = [
@@ -55,13 +57,10 @@ const columns = [
       format: (value) => value.toLocaleString('en-US'),
 
     },
-  ];
-  
+];
+
 
 const Clients = () => {
-
-    useRedirectLoggedOutUser("/login");
-
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
   
@@ -84,17 +83,20 @@ const Clients = () => {
       setOpenn(false);
     };
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const dispatch = useDispatch();
-    const user = JSON.parse(localStorage.getItem('profile'));
-    const {clients} = useSelector((state) => state.clients);
-    const isLoading = useSelector(state => state.clients.isLoading);
     const [clientData, setClientData] = useState({ name: '', email: '', phone: '', address: '', userId: ''})
 
     useEffect(() => {
       dispatch(getClientsByUser({ search: user?.result?._id}));
-    },[location,dispatch])
+    },[])
+
+    const navigate = useNavigate();
+    // const location = useLocation();
+    const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
+    const { clients } = useSelector((state) => state.clients);
+    const isLoading = useSelector(state => state.clients.isLoading);
+
+    useRedirectLoggedOutUser("/login");
 
     const editClient = () => {
         dispatch(updateClient(clientData._id, clientData));
@@ -115,8 +117,9 @@ const Clients = () => {
     }
 
     if(clients?.length === 0) {
-      return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px', margin: '80px'}}>
-      <p style={{padding: '40px', color: 'gray', textAlign: 'center'}}>No customers yet. Click the plus icon to add customer</p>
+      return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+      <img src={image_1} alt="emptyIcon"/>
+      <p style={{color: 'gray', textAlign: 'center'}} className="text-xl">No customers yet. Click the plus icon to add customer</p>
       </div>
     }
 
@@ -142,26 +145,26 @@ const Clients = () => {
                 </TableHead>
                 <TableBody>
                   {clients
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              ?.map((client, index) => {
-                return (
-                  <TableRow tabIndex={-1} key={client._id}>
-                    <TableCell>{index+1}</TableCell>
-                    <TableCell>{client.name}</TableCell>
-                    <TableCell>{client.email}</TableCell>
-                    <TableCell>{client.phone}</TableCell>
-                    <TableCell onClick={() =>{
-                      setClientData(client)
-                      handleClickOpen()
-                    }} style={{cursor:"pointer"}}>
-                        <ModeEditIcon/>
-                    </TableCell>
-                    <TableCell onClick={() => dltClient(client._id)}>
-                        <DeleteIcon/>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                    ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    ?.map((client, index) => {
+                      return (
+                        <TableRow tabIndex={-1} key={client._id}>
+                          <TableCell>{index+1}</TableCell>
+                          <TableCell>{client.name}</TableCell>
+                          <TableCell>{client.email}</TableCell>
+                          <TableCell>{client.phone}</TableCell>
+                          <TableCell onClick={() =>{
+                            setClientData(client)
+                            handleClickOpen()
+                          }} style={{cursor:"pointer"}}>
+                              <ModeEditIcon/>
+                          </TableCell>
+                          <TableCell onClick={() => dltClient(client._id)}>
+                              <DeleteIcon/>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             </TableContainer>

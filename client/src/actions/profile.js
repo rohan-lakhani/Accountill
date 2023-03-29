@@ -72,7 +72,6 @@ export const createProfile = (profile) => async (dispatch) => {
 export const updateProfile = (id, form) => async (dispatch) => {
   try {
     const { data } = await api.updateProfile(id, form);
-
     dispatch({ type: UPDATE_PROFILE, payload: data });
     toast.success("Profile updated successfully")
   } catch (error) {

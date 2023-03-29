@@ -131,19 +131,12 @@ hr {
                   <p style="font-size: 18px">${Number(balanceDue) <= 0 ? 'Thank you for your business' : type} ${Number(balanceDue) != 0 ? 'for' : ''} <span style="font-weight: 700">${Number(balanceDue) <= 0 ? '' : balanceDue}</span> ${Number(balanceDue) <= 0 ? '' : `due by`} <span style="font-weight: 700">${Number(balanceDue) <= 0 ? '' : moment(dueDate).format("MMM Do YYYY")}</span></p>
               </div>
               
-              <div class="link-container">
-                  <a href=${link} class="invoice-link" style="color: white">
-                  ${Number(balanceDue) <= 0 ? 'View Receipt' : `View ${type}`}
-                  </a>
-              </div>
-              
-              <p style="font-size: 14px; padding: 20px">#${id}</p>
+              <p style="font-size: 14px; padding: 20px">#Invoice ID:-${id}</p>
               
               <div class="address">
                   <h2>${company.businessName}</h2>
                   <p>${company.phoneNumber}</p>
                   <p>${company.website ? company?.website : ''}</p>
-                  
               </div>
         </div>
         
@@ -156,5 +149,4 @@ hr {
     </div>
     </body>
 </html>`
-;
 };

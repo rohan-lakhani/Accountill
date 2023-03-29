@@ -59,8 +59,7 @@ const Header = () => {
   if(!user) return (
     <div className='flex justify-between px-6 mt-1 pb-1 border-b-2'>
       <img style={{width: '50px', cursor: 'pointer'}} onClick={()=> navigate('/')} src="https://i.postimg.cc/hGZKzdkS/logo.png" alt="arc-invoice" />
-      {/* <button className="btn btn-outline btn-primary">Button</button> */}
-      <button className='btn btn-outline btn-primary btn-sm text-lg font-normal mr-1 mt-2 rounded-2xl normal-case'>
+      <button className='btn btn-outline btn-primary btn-sm text-lg font-normal mr-1 mt-2 normal-case border-3 rounded-2xl'>
         <Link to="/login">Get Started</Link>
       </button>
     </div>
@@ -77,7 +76,7 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar sx={{ width: 40, height: 40, }} 
-            style={{ marginTop:"-9px", fontWeight:"bold",  backgroundColor: ' rgb(0, 119, 255)'}}
+            style={{ marginTop:"-9px", fontWeight:"bold",  backgroundColor: 'rgb(0, 119, 255)'}}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             >{user?.result?.name?.charAt(0)}</Avatar>
@@ -119,20 +118,21 @@ const Header = () => {
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
       >
         <MenuItem onClick={() => {
-          navigate("/contact-us");
+          navigate("/settings");
           handleClose();
-        }}>
+        }} sx={{color:"gray", fontWeight:"bold", marginBottom:"1px"}}>
           <ListItemIcon>
-            <Settings fontSize="small" />
+            <Settings fontSize="small"/>
           </ListItemIcon>
           {user?.result?.name}
         </MenuItem>
-        <MenuItem onClick={() =>{
-                        logout();
-                        handleClose();
-                    }}>
+        <MenuItem 
+        onClick={() =>{logout();
+                      handleClose();}}
+        sx={{color:"gray",fontWeight:"bold"}}
+        >
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout fontSize="small"/>
           </ListItemIcon>
           Logout
         </MenuItem>

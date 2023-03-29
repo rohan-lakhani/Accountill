@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signin } from '../../../actions/auth';
+import Spinner from '../../Spinner/Spinner';
 
 
   const initialState = {
@@ -16,9 +17,18 @@ const Login = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [isLoading,setIsLoading] = useState(false);
     const [formData,setFormData] = useState(initialState);
     const {  email, password } = formData;
+    const isLoading = useSelector(state => state.auth.isLoading);
+
+    const user = JSON.parse(localStorage.getItem('profile'));
+  
+    useEffect(() => {
+        if(user!=null) {
+        navigate('/dashboard')
+        }
+    }, [])
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,8 +42,16 @@ const Login = () => {
             password,
         };
         console.log('hello');
-        dispatch(signin(formData, setIsLoading))
+        dispatch(signin(formData))
     }
+    console.log("isLoading=",isLoading);
+
+    if(isLoading) {
+        return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
+            <Spinner />
+        </div>
+      }
+
   return (
     <div>
         {/* {isLoading && <Loader/>} */}

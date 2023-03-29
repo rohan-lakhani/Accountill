@@ -176,13 +176,12 @@ const Invoice = () => {
     }
 
     React.useEffect(() => {
-      console.log("id=> "+id)
       dispatch(getInvoice(id));
-    },[id]);
+    },[location,id]);
 
     React.useEffect(() => {
       dispatch(getClientsByUser({search: user?.result?._id}))
-    },[dispatch]);
+    },[location,dispatch]);
 
     React.useEffect(() => {
       if(invoice) {
@@ -308,7 +307,7 @@ const addClient = () => {
         paymentRecords: [], 
         creator: [user?.result?._id] 
       }))
-        navigate("/dashboard");
+        navigate('/dashboard');
     }
   }
 
@@ -471,7 +470,7 @@ const addClient = () => {
                           <TableCell align="left"><input type="text" value={item.quantity} name="quantity" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
                           <TableCell align="left"><input type="text" value={item.unitPrice} name="unitPrice" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
                           <TableCell align="left"><input type="text" value={item.discount} name="discount" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
-                          <TableCell align="left"><input type="text" value={(item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100} name="amount" disabled className="pl-2 w-20 max-w-xs h-8"/></TableCell>
+                          <TableCell align="left"><input type="text" value={((item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100).toFixed(2)} name="amount" disabled className="pl-2 w-20 max-w-xs h-8"/></TableCell>
                           <TableCell align="left">
                           <IconButton onClick={() =>handleRemoveField(index)}>
                             <DeleteOutlineRoundedIcon style={{width: '20px', height: '20px'}}/>
@@ -494,7 +493,7 @@ const addClient = () => {
                 <h1 className='bg-zinc-200 p-2 text-zinc-700 font-semibold rounded-sm border-b-2 border-gray-400'>Invoice Summary</h1>
                 <div className='flex justify-between px-2 py-1 border-b-2 border-gray-400'>
                   <h1>Sub Total:</h1>
-                  <h1>{subTotal}</h1>
+                  <h1>{subTotal.toFixed(2)}</h1>
                 </div>
                 <div className='flex justify-between px-2 py-1 border-b-2 border-gray-400'>
                   <h1>VAT(%)</h1>
@@ -502,7 +501,7 @@ const addClient = () => {
                 </div>
                 <div className='flex justify-between px-2 py-1 border-b-2 border-gray-400'>
                   <h1>Total</h1>
-                  <h1 className='font-bold'>{currency} {toCommas(total)}</h1>
+                  <h1 className='font-bold'>{currency} {toCommas(total.toFixed(2))}</h1>
                 </div>
               </div>
             </div>

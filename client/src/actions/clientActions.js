@@ -20,7 +20,7 @@ export const getClient = (id) => async (dispatch) => {
 export const getClientsByUser =(searchQuery) => async (dispatch) => {
     try {
       dispatch({ type: START_LOADING })
-    const  { data: { data } } = await api.fetchClientByUser(searchQuery)
+      const  { data: { data } } = await api.fetchClientByUser(searchQuery)
       
       dispatch({ type: FETCH_CLIENTS_BY_USER, payload: data });
       dispatch({ type: END_LOADING })
