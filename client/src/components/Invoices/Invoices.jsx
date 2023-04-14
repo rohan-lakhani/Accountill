@@ -153,6 +153,7 @@ const Invoices = () => {
       <p style={{color: 'gray', textAlign: 'center'}} className="text-xl">No invoice yet. Click the plus icon to add Invoice</p>
       </div>
     }
+    console.log(invoices)
 
   return (
     <div className='ml-16 pb-4 bg-gray-200' style={{minHeight: "92.7vh"}}>
@@ -186,7 +187,7 @@ const Invoices = () => {
 
                     <TableCell onClick={() => openInvoice(invoice._id)}>{invoice.currency} {invoice.total ? toCommas(invoice.total) : invoice.total}</TableCell>
 
-                    <TableCell onClick={() => openInvoice(invoice._id)}>{moment(invoice.dueDate).fromNow()}</TableCell>
+                    <TableCell onClick={() => openInvoice(invoice._id)}>{moment(invoice.dueDate).format("MMM Do YYYY")}</TableCell>
 
                     <TableCell onClick={() => openInvoice(invoice._id)} sx={{backgroundColor:""}}><button onClick={checkStatus(invoice.status)}>{invoice.status}</button></TableCell>
                     

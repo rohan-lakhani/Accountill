@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import nodemailer from "nodemailer";
 import pdf from "html-pdf";
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path, { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -32,12 +32,13 @@ app.use(express.json({ limit: "30mb", extended: true}));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: "30mb", extended: true}));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "../client/dist")))
 
 //ROUTES MIDDLEWARE
-app.use("/users",userRoute);
-app.use("/profiles",profileRoute);
-app.use("/clients",clientRoute);
-app.use("/invoices",invoiceRoute);
+app.use("/api/users",userRoute);
+app.use("/api/profiles",profileRoute);
+app.use("/api/clients",clientRoute);
+app.use("/api/invoices",invoiceRoute);
 
 //NODEMAILER TRANSPORT FOR SENDING INVOICE VIA EMAIL
 const transporter = nodemailer.createTransport({
@@ -55,7 +56,7 @@ const transporter = nodemailer.createTransport({
 var options = { format: 'A4' };
 
 //SEND PDF INVOICE VIA EMAIL
-app.post('/send-pdf',(req,res) => {
+app.post('/api/send-pdf',(req,res) => {
     const { email, company } = req.body;
     pdf.create(pdfTemplate(req.body), options).toFile('invoice.pdf', (err) => {
         //send mail with defined transport object
@@ -81,7 +82,7 @@ app.post('/send-pdf',(req,res) => {
 });
 
 //CREATE AND SEND PDF INVOICE
-app.post('/create-pdf',(req,res) => {
+app.post('/api/create-pdf',(req,res) => {
     pdf.create(pdfTemplate(req.body), options).toFile('invoice.pdf', (err) => {
         if(err){
             res.send(Promise.reject());
@@ -91,14 +92,18 @@ app.post('/create-pdf',(req,res) => {
 })
 
 //SEND PDF INVOICE
-app.get('/fetch-pdf', (req, res) => {
+app.get('/api/fetch-pdf', (req, res) => {
     res.sendFile(`${__dirname}/invoice.pdf`)
 })
 
 
 //ROUTES
-app.get("/",(req,res) => {
+app.get("/api",(req,res) => {
     res.send("<h1>Home Page...</h1>");
+})
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"))
 })
 
 //ERROR MIDDLEWARE
@@ -121,3 +126,4 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT,() => {
     console.log(`Server Running on port ${PORT}`);
 })
+

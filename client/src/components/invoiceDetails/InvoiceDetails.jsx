@@ -186,7 +186,7 @@ const InvoiceDetails = () => {
 
     const createAndDownloadPDF = () => {
         setDownloadStatus('loading');
-        axios.post('/create-pdf',
+        axios.post('/api/create-pdf',
         {
             name: invoice.client.name,
             address: invoice.client.address,
@@ -206,7 +206,7 @@ const InvoiceDetails = () => {
             balanceDue: toCommas(total - totalAmountReceived),
             company: company,
         })
-        .then(() => axios.get('/fetch-pdf',{ responseType: 'blob' }))
+        .then(() => axios.get('/api/fetch-pdf',{ responseType: 'blob' }))
         .then((res) => {
             const pdfBlob = new Blob([res.data], { type: 'application/pdf'});
             saveAs(pdfBlob, 'invoice.pdf')
@@ -218,7 +218,7 @@ const InvoiceDetails = () => {
     const sendPdf = (e) => {
         e.preventDefault();
         setSendStatus('loading')
-        axios.post('/send-pdf',
+        axios.post('/api/send-pdf',
         {
             name: invoice.client.name,
             address: invoice.client.address,
@@ -312,7 +312,7 @@ const InvoiceDetails = () => {
                                 <h1 className='font-bold'>{invoice?.businessDetails?.data?.data?.businessName}</h1>
                                 <h1>{invoice?.businessDetails?.data?.data?.email}</h1>
                                 <h1>{invoice?.businessDetails?.data?.data?.phoneNumber}</h1>
-                                <h1>{invoice?.businessDetails?.data?.data?.address}</h1>
+                                <h1>{invoice?.businessDetails?.data?.data?.contactAddress}</h1>
                             </div>
                         </div>
                     )} 
@@ -424,8 +424,6 @@ const InvoiceDetails = () => {
             ): (
               <div className='mb-20'></div>
             )}
-
-            
         </form>
        </div>
     </div>

@@ -10,8 +10,8 @@ export const getClient = (id) => async (dispatch) => {
       dispatch({ type: START_LOADING });
       const { data } = await api.fetchClient(id);
       dispatch({ type: FETCH_CLIENT, payload: { client: data } });
-
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error);
     }
   };
@@ -25,6 +25,7 @@ export const getClientsByUser =(searchQuery) => async (dispatch) => {
       dispatch({ type: FETCH_CLIENTS_BY_USER, payload: data });
       dispatch({ type: END_LOADING })
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error.response)
     }
   }
@@ -37,6 +38,7 @@ export const createClient =(client) => async (dispatch) => {
         dispatch({ type: ADD_NEW_CLIENT, payload: data })
         toast.success("Customer added successfully")
     } catch (error) {
+        toast.error(error.response.data.message);
         console.log(error)
     }
 }
@@ -50,6 +52,7 @@ export const updateClient =(id, client) => async (dispatch) => {
     try {
         
     } catch (error) {
+      toast.error(error.response.data.message);
         console.log(error)
     }
 }
@@ -61,6 +64,7 @@ export const deleteClient =(id) => async (dispatch) => {
         dispatch({type: DELETE_CLIENT, payload: id})
         toast.success("Customer deleted successfully")
     } catch (error) {
+      toast.error(error.response.data.message);
         console.log(error)
     }
 }

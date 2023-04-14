@@ -43,30 +43,22 @@ const columns = [
     {
       id: 'price',
       label: 'Price',
-      // minWidth: 10,
       align: 'left',
-      format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'disc',
       label: 'Disc(%)',
-      // minWidth: 170,
       align: 'left',
-      format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'amount',
       label: 'Amount',
-      // minWidth: 170,
       align: 'left',
-      format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'action',
       label: 'Action',
-      // minWidth: 170,
       align: 'left',
-      format: (value) => value.toLocaleString('en-US'),
     },
   ];
 
@@ -138,7 +130,6 @@ const Invoice = () => {
     const [selectedDate, setSelectedDate] = React.useState(moment().format('YYYY-MM-DD'));
     const [client, setClient] = React.useState(null);
     const [clientData, setClientData] = React.useState({ name: '', email: '', phone: '', address: '', userId: ''})
-    // const [clients, setClients] = React.useState([{}]);
     const [type, setType] = React.useState('Invoice');
     const [status, setStatus] = React.useState('');
     
@@ -265,9 +256,10 @@ const handleRemoveField =(index) => {
     // console.log(values)
 }
 
-const addClient = () => {
-  console.log("client...")
+const addClient = (e) => {
+  e.preventDefault();
   dispatch(createClient({...clientData,  userId: user?.result?._id}));
+  handleClickClose();
 }
 
   const handleSubmit = async (e) => {
@@ -362,7 +354,6 @@ const addClient = () => {
                       select
                       label="Select Customer"
                       helperText="Please select Customer"
-                      // sx={{width:"35%"}}
                       color="info"
                       required={ !invoice && true}
                       >
@@ -380,56 +371,7 @@ const addClient = () => {
                       </div>
                     )}
 
-                      <Dialog
-                      open={openn}
-                      onClose={handleClickClose}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                      <DialogTitle id="alert-dialog-title" sx={{backgroundColor:"#1976D2", color:"white"}}>
-                        {"New Customer"}
-                      </DialogTitle>
-                      <DialogContent sx={{marginTop:"10px"}}>
-                        <TextField
-                        label="Name"
-                        type="text"
-                        variant="filled"
-                        onChange={(e) => setClientData({...clientData, name: e.target.value})}
-                        sx={{width:"100%"}}
-                      />
-                        <TextField
-                        label="Email"
-                        type="text"
-                        variant="filled"
-                        onChange={(e) => setClientData({...clientData, email: e.target.value})}
-                        sx={{width:"100%"}}
-                      />
-                        <TextField
-                        label="Phone"
-                        type="text"
-                        variant="filled"
-                        onChange={(e) => setClientData({...clientData, phone: e.target.value})}
-                        sx={{width:"100%"}}
-                      />
-                        <TextField
-                        label="Address"
-                        type="text"
-                        variant="filled"
-                        onChange={(e) => setClientData({...clientData, address: e.target.value})}
-                        sx={{width:"100%"}}
-                      />
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white"}}>Close</Button>
-                        <Button onClick={() => {
-                          addClient();
-                          handleClickClose();
-                        }} autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
-                          Save Customer
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                    {/* )} */}
+                      
                 </div>
                 <div className='my-4 w-1/2 text-end'>
                         <h1 className='text-xs text-gray-500'>STATUS</h1>
@@ -467,10 +409,10 @@ const addClient = () => {
                       return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={item.index}>
                           <TableCell scope='row'><input type="text" value={item.itemName} name="itemName" onChange={e => handleChange(index, e)} placeholder="Item name or description" required className="pl-2 w-full max-w-xs h-8"/></TableCell>
-                          <TableCell align="left"><input type="text" value={item.quantity} name="quantity" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
-                          <TableCell align="left"><input type="text" value={item.unitPrice} name="unitPrice" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
-                          <TableCell align="left"><input type="text" value={item.discount} name="discount" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
-                          <TableCell align="left"><input type="text" value={((item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100).toFixed(2)} name="amount" disabled className="pl-2 w-20 max-w-xs h-8"/></TableCell>
+                          <TableCell align="left"><input type="number" value={item.quantity} name="quantity" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
+                          <TableCell align="left"><input type="number" value={item.unitPrice} name="unitPrice" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
+                          <TableCell align="left"><input type="number" value={item.discount} name="discount" onChange={e => handleChange(index, e)} placeholder="0" required className="pl-2 w-20 max-w-xs h-8"/></TableCell>
+                          <TableCell align="left"><input type="number" value={((item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100).toFixed(2)} name="amount" disabled className="pl-2 w-20 max-w-xs h-8"/></TableCell>
                           <TableCell align="left">
                           <IconButton onClick={() =>handleRemoveField(index)}>
                             <DeleteOutlineRoundedIcon style={{width: '20px', height: '20px'}}/>
@@ -571,6 +513,58 @@ const addClient = () => {
                 </div>
         </form>
        </div>
+       <Dialog
+        open={openn}
+        onClose={handleClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" sx={{backgroundColor:"#1976D2", color:"white"}}>
+          {"New Customer"}
+        </DialogTitle>
+        <DialogContent sx={{marginTop:"10px"}}>
+          <form onSubmit={addClient}>
+            <TextField
+            label="Name"
+            type="text"
+            variant="filled"
+            onChange={(e) => setClientData({...clientData, name: e.target.value})}
+            required
+            sx={{width:"100%"}}
+          />
+            <TextField
+            label="Email"
+            type="email"
+            variant="filled"
+            onChange={(e) => setClientData({...clientData, email: e.target.value})}
+            required
+            sx={{width:"100%"}}
+          />
+            <TextField
+            label="Phone"
+            type="text"
+            variant="filled"
+            onChange={(e) => setClientData({...clientData, phone: e.target.value})}
+            required
+            sx={{width:"100%"}}
+          />
+            <TextField
+            label="Address"
+            type="text"
+            variant="filled"
+            onChange={(e) => setClientData({...clientData, address: e.target.value})}
+            required
+            sx={{width:"100%"}}
+          />
+            <div className='flex justify-end mt-4'>
+            <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white", marginRight:"8px"}}>Close</Button>
+            <Button type='submit' autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
+              Save Customer
+            </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { FETCH_PROFILES, FETCH_PROFILES_BY_USER, CREATE_PROFILE, UPDATE_PROFILE, DELETE_PROFILE, FETCH_PROFILE_BY_USER, START_LOADING, END_LOADING, FETCH_PROFILE } from './constants';
-import * as api from '../api/index.js';
+import * as api from '../api/index';
 import { toast } from 'react-toastify';
 
 

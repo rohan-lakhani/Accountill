@@ -98,8 +98,10 @@ const Clients = () => {
 
     useRedirectLoggedOutUser("/login");
 
-    const editClient = () => {
-        dispatch(updateClient(clientData._id, clientData));
+    const editClient = (e) => {
+      e.preventDefault();
+      dispatch(updateClient(clientData._id, clientData));
+      handleClickClose();
     }
 
     const dltClient = (id) => {
@@ -187,51 +189,54 @@ const Clients = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" sx={{backgroundColor:"#1976D2", color:"white"}}>
-          {"New Customer"}
+          New Customer
         </DialogTitle>
-        <DialogContent sx={{marginTop:"10px"}}>
-          <TextField
-          label="Name"
-          type="text"
-          variant="filled"
-          sx={{width:"100%"}}
-          value={clientData.name}
-          onChange={(e) => setClientData({...clientData, name: e.target.value})} 
-        />
-          <TextField
-          label="Email"
-          type="text"
-          variant="filled"
-          sx={{width:"100%"}}
-          value={clientData.email}
-          onChange={(e) => setClientData({...clientData, email: e.target.value})} 
-        />
-          <TextField
-          label="Phone"
-          type="text"
-          variant="filled"
-          sx={{width:"100%"}}
-          value={clientData.phone}
-          onChange={(e) => setClientData({...clientData, phone: e.target.value})} 
-        />
-          <TextField
-          label="Address"
-          type="text"
-          variant="filled"
-          sx={{width:"100%"}}
-          value={clientData.address}
-          onChange={(e) => setClientData({...clientData, address: e.target.value})} 
-        />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white"}}>Close</Button>
-          <Button onClick={() => {
-            editClient()
-            handleClickClose()
-          }} autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
-            Save Customer
-          </Button>
-        </DialogActions>
+        <form onSubmit={editClient}>
+          <DialogContent sx={{marginTop:"10px"}}>
+            <TextField
+            label="Name"
+            type="text"
+            variant="filled"
+            sx={{width:"100%"}}
+            value={clientData.name}
+            required
+            onChange={(e) => setClientData({...clientData, name: e.target.value})}
+          />
+            <TextField
+            label="Email"
+            type="email"
+            variant="filled"
+            sx={{width:"100%"}}
+            value={clientData.email}
+            required
+            onChange={(e) => setClientData({...clientData, email: e.target.value})} 
+          />
+            <TextField
+            label="Phone"
+            type="text"
+            variant="filled"
+            sx={{width:"100%"}}
+            value={clientData.phone}
+            required
+            onChange={(e) => setClientData({...clientData, phone: e.target.value})} 
+          />
+            <TextField
+            label="Address"
+            type="text"
+            variant="filled"
+            sx={{width:"100%"}}
+            value={clientData.address}
+            required
+            onChange={(e) => setClientData({...clientData, address: e.target.value})} 
+          />
+          <div className='flex justify-end mt-4'>
+            <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white", marginRight:"8px"}}>Close</Button>
+            <Button type='submit' autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
+                Save Customer
+            </Button>
+          </div>
+          </DialogContent>
+        </form>
       </Dialog>
       </div>
     </div>

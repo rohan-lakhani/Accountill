@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 
-import Box from '@mui/material/Box';
+import {Box} from '@mui/material';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -50,21 +50,11 @@ const AddIconFooter = () => {
   const handleClickClose = () => {
     setOpenn(false);
   };
-
-  //hovering effect
-  const [isHovering, setIsHovering] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-  };
-
   
-const addClient = () => {
+const addClient = (e) => {
+  e.preventDefault();
   dispatch(createClient({...clientData, userId: user?.result?._id}));
+  handleClickClose();
 }
   return (
     <div className='fixed right-4 bottom-4 z-10'>
@@ -74,7 +64,6 @@ const addClient = () => {
       sx={{ position: 'absolute', bottom: 16, right: 16, fontSize: "12px", }}
       icon={<SpeedDialIcon />}
       onClose={handleClose}
-      // onOpen={handleOpen}
       onMouseEnter={handleOpen}
       open={open}
     >
@@ -114,18 +103,21 @@ const addClient = () => {
         {"New Customer"}
       </DialogTitle>
       <DialogContent sx={{marginTop:"10px"}}>
+        <form onSubmit={addClient}>
         <TextField
         label="Name"
         type="text"
         variant="filled"
         onChange={(e) => setClientData({...clientData, name: e.target.value})}
+        required
         sx={{width:"100%"}}
       />
         <TextField
         label="Email"
-        type="text"
+        type="email"
         variant="filled"
         onChange={(e) => setClientData({...clientData, email: e.target.value})}
+        required
         sx={{width:"100%"}}
       />
         <TextField
@@ -133,6 +125,7 @@ const addClient = () => {
         type="text"
         variant="filled"
         onChange={(e) => setClientData({...clientData, phone: e.target.value})}
+        required
         sx={{width:"100%"}}
       />
         <TextField
@@ -140,18 +133,17 @@ const addClient = () => {
         type="text"
         variant="filled"
         onChange={(e) => setClientData({...clientData, address: e.target.value})}
-        sx={{width:"100%"}}
+        required
+        style={{width:"100%"}}
       />
+        <div className='flex justify-end mt-4'>
+          <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white", marginRight:"8px"}}>Close</Button>
+          <Button type='submit' autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
+            Save Customer
+          </Button>
+        </div>
+      </form>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClickClose} style={{backgroundColor: "#1976D2", color: "white"}}>Close</Button>
-        <Button onClick={() => {
-          addClient();
-          handleClickClose();
-        }} autoFocus style={{backgroundColor:"#1976D2", color:"white"}}>
-          Save Customer
-        </Button>
-      </DialogActions>
     </Dialog>
   </div>
   )

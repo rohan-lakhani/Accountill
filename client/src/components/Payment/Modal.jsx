@@ -79,7 +79,7 @@ const [selectedDate, setSelectedDate] = React.useState(moment(new Date()).format
   },[payment, paymentRecords, totalAmountReceived, invoice] )
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     dispatch(updateInvoice(invoice._id, updatedInvoice))
     .then(() => {
         handleClickClose()

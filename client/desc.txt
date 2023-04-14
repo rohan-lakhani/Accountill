@@ -1,0 +1,1 @@
+Crafted a full stack invoice management Sass like web application with MERN stack. Having customer & payment management features with strong business logic and great UI/UX. Implemented authentication & authorization with JWT and httpOnly cookie. Also user can download pdf of all invoices with full customer, product and payment details.

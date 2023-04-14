@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useRedirectLoggedOutUser from '../../customeHook/useRedirectLoggedOutUser';
-import { toCommas } from '../../utils/utils.js';
-import Spinner from '../Spinner/Spinner.js';
-import { getInvoicesByUser } from "../../actions/invoiceActions.js";
+import { toCommas } from '../../utils/utils';
+import Spinner from '../Spinner/Spinner';
+import { getInvoicesByUser } from "../../actions/invoiceActions";
 import moment from 'moment';
 
 
@@ -126,18 +126,12 @@ const Dashboard = () => {
       </div>
     }
 
-    // if(invoices.length === 0) {
-    //   return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
-    //   <p style={{padding: '40px', color: 'gray'}}>Nothing to display. Click the plus icon to start creating</p>
-    //   </div>
-    // }
-
   return (
     <div className='ml-16 pb-4 bg-gray-200' style={{minHeight: "92.7vh"}}>
       <div className='mx-6'>
       <div class="grid grid-cols-5 gap-2 p-2">
 
-            <div className='flex p-6 items-center justify-between rounded-xl' style={{backgroundColor:"rgb(105, 142, 236)"}}>
+            <div className='flex p-6 items-center justify-between rounded-xl' style={{backgroundColor:"rgb(158, 180, 237)"}}>
                 <div>
                     <h1 className='text-3xl'>{toCommas(totalPaid.toFixed(2))}</h1>
                     <p className='text-md'>Payment Received</p>
@@ -177,7 +171,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className='flex p-6 items-center justify-between rounded-xl' style={{backgroundColor:"rgb(121, 220, 121)"}}>
+            <div className='flex p-6 items-center justify-between rounded-xl' style={{backgroundColor:"rgb(150, 232, 150)"}}>
                 <div>
                     <h1 className='text-3xl'>{paid.length}</h1>
                     <p className='text-md'>Paid Invoices</p>

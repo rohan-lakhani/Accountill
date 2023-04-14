@@ -56,6 +56,7 @@ export const signup = asyncHandler(async (req,res) => {
     //Sent HTTP only cookie
     res.cookie("token",token,{
         // expires: new Date(Date.now() + 1000 * 86400), // 1 Day
+        httpOnly: true,
         expires: new Date(Date.now() + 1000 * 3600), // 1 Day
     });
 
@@ -168,7 +169,7 @@ export const forgotPassword = asyncHandler(async(req,res) => {
     // const resetUrl=`${process.env.FRONTEND_URL}/reset/${resetToken}`;
 
     user.resetToken = hashedToken;
-    user.expiresToken = Date.now() + 3600000;
+    user.expiresToken = Date.now() + 1 * 60 * 60 * 1000; // 1 Hour
 
     await user.save();
 

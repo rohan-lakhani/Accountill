@@ -5,7 +5,6 @@ const clientSchema = mongoose.Schema({
     name: String,
     email:{
         type: String,
-        unique: true,
         lowercase: true,
         trim: true,
         validate: [validator.isEmail, 'Please provide a valid email']
@@ -24,3 +23,4 @@ const clientSchema = mongoose.Schema({
 const Client = mongoose.model('Client', clientSchema);
 
 export default Client;
+

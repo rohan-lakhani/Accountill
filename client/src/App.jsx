@@ -2,13 +2,13 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 
-import Home from './components/Home/Home.js';
-import Header from './components/Header/Header.js';
-import NavBar from './components/NavBar/NavBar.js';
-import Login from './components/Auth/Login/Login.js';
-import Register from './components/Auth/Register/Register.js';
-import Forgot from './components/Auth/Forgot/Forgot.js';
-import Reset from './components/Auth/Reset/Reset.js';
+import Home from './components/Home/Home';
+import Header from './components/Header/Header';
+import NavBar from './components/NavBar/NavBar';
+import Login from './components/Auth/Login/Login';
+import Register from './components/Auth/Register/Register';
+import Forgot from './components/Auth/Forgot/Forgot';
+import Reset from './components/Auth/Reset/Reset';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddIconFooter from './components/addIconFooter/AddIconFooter';
 import Invoice from './components/invoice/Invoice';
@@ -16,9 +16,6 @@ import Invoices from './components/Invoices/Invoices';
 import InvoiceDetails from './components/invoiceDetails/InvoiceDetails';
 import Clients from './components/Clients/Clients';
 import Settings from './components/Settings/Settings'
-
-
-
 
 function App() {
 

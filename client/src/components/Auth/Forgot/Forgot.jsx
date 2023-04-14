@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { forgot } from "../../../actions/auth.js";
+import { forgot } from "../../../actions/auth";
 import { useDispatch, useSelector } from 'react-redux';
-import Spinner from '../../Spinner/Spinner.js';
+import Spinner from '../../Spinner/Spinner';
 
 const Forgot = () => {
     const [form, setForm] = useState("");

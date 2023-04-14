@@ -74,7 +74,7 @@ const Register = () => {
                 <form class="form-control flex justify" onSubmit={registerUser}>
                     <input type="text" placeholder="First Name" required name='firstName' value={firstName} onChange={handleInputChange} class="input"/>
 
-                    <input type="text" placeholder="Last Name" required name='lastName' value={lastName} onChange={handleInputChange} class="input"/>
+                    <input type="text" placeholder="Last Name" required name='lastName' value={lastName} onChange={handleInputChange} class="input mt-2"/>
 
                     <input type="email" placeholder="Email" required name='email' value={email} onChange={handleInputChange} class="input mt-2"/>
 

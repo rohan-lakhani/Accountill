@@ -14,7 +14,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import MailIcon from '@mui/icons-material/Mail';
 
-import * as api from '../../api/index.js';
+import * as api from '../../api/index';
 
 
 // const Styles = makeStyles(() => ({
@@ -81,6 +81,11 @@ const Settings = () => {
       formData.append("userId",user?.result?._id);
       formData.append("logo",logo);
       dispatch(updateProfile(profiles?._id, formData));
+      
+      const { data: { data } } = await api.fetchProfilesByUser({ search: user?.result?._id })
+      setProfiles(data);
+      dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
+
       setIsEdit(false);
     }
 

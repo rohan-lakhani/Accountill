@@ -1,12 +1,12 @@
 [
             
     {
-        "countryCode": "NG",
-        "label": "Nigeria",
-        "value": "NGN",
-        "population": "154000000",
-        "capital": "Abuja",
-        "continentName": "Africa"
+        "countryCode": "IN",
+        "label": "India",
+        "value": "INR",
+        "population": "1173108018",
+        "capital": "New Delhi",
+        "continentName": "Asia"
     },
     {
         "countryCode": "AD",
@@ -841,12 +841,12 @@
         "continentName": "Europe"
     },
     {
-        "countryCode": "IN",
-        "label": "India",
-        "value": "INR",
-        "population": "1173108018",
-        "capital": "New Delhi",
-        "continentName": "Asia"
+        "countryCode": "NG",
+        "label": "Nigeria",
+        "value": "NGN",
+        "population": "154000000",
+        "capital": "Abuja",
+        "continentName": "Africa"
     },
     {
         "countryCode": "IO",
