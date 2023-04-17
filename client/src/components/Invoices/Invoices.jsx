@@ -56,30 +56,6 @@ const columns = [
 
     },
   ];
-  
-  function createData(number, client, amount, dueDate, status) {
-    return { number, client, amount, dueDate, status };
-  }
-
-  const rows = [
-    createData('India the great', 'IN', 1324171354, 3287263, "hello", "Paid", ),
-    createData('China', 'CN', 1403500365, 9596961, "hello", ),
-    createData('Italy', 'IT', 60483973, 301340, "hello", ),
-    createData('United States', 'US', 327167434, 9833520, "hello", ),
-    createData('Canada', 'CA', 37602103, 9984670, "hello", ),
-    createData('Australia', 'AU', 25475400, 7692024, "hello", ),
-    createData('Germany', 'DE', 83019200, 357578, "hello", ),
-    createData('Ireland', 'IE', 4857000, 70273, "hello", ),
-    createData('Mexico', 'MX', 126577691, 1972550, "hello", ),
-    createData('Japan', 'JP', 126317000, 377973, "hello", ),
-    createData('France', 'FR', 67022000, 640679, "hello", ),
-    createData('United Kingdom', 'GB', 67545757, 242495, "hello", ),
-    createData('Russia', 'RU', 146793744, 17098246, "hello", ),
-    createData('Nigeria', 'NG', 200962417, 923768, "hello", ),
-    createData('Brazil', 'BR', 210147125, 8515767, "hello", ),
-  ];
-
-
 const Invoices = () => {
 
     useRedirectLoggedOutUser("/login");
@@ -180,7 +156,7 @@ const Invoices = () => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((invoice) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={invoice._id}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={invoice._id} style={{cursor:"pointer"}}>
                     <TableCell onClick={() => openInvoice(invoice._id)}>{invoice.invoiceNumber}</TableCell>
 
                     <TableCell onClick={() => openInvoice(invoice._id)}>{invoice.client.name}</TableCell>

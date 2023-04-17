@@ -364,7 +364,7 @@ const InvoiceDetails = () => {
                           <TableCell align="left">{item.quantity}</TableCell>
                           <TableCell align="left">{item.unitPrice}</TableCell>
                           <TableCell align="left">{item.discount}</TableCell>
-                          <TableCell align="left">{(item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100}</TableCell>
+                          <TableCell align="left">{((item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100).toFixed(2)}</TableCell>
                         </TableRow> 
                       );
                     })}

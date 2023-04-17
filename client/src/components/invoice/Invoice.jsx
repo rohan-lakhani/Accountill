@@ -330,7 +330,7 @@ const addClient = (e) => {
             </div>
             <div className='flex justify-end mt-2 border-b border-gray-400'>
                 <span className='my-auto text-xl mr-2'>Invoice#:</span>
-                <input type="text" placeholder="" className="bg-gray-300 pl-2 w-20 max-w-xs h-8" value={invoiceData.invoiceNumber} onInput={e => setInvoiceData({
+                <input type="text" placeholder="" readOnly className="bg-gray-300 pl-2 w-20 max-w-xs h-8" value={invoiceData.invoiceNumber} onInput={e => setInvoiceData({
                   ...invoiceData,
                   invoiceNumber: e.currentTarget.textContent
                 })}/>
