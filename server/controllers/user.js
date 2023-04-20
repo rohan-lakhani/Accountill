@@ -57,7 +57,7 @@ export const signup = asyncHandler(async (req,res) => {
     res.cookie("token",token,{
         // expires: new Date(Date.now() + 1000 * 86400), // 1 Day
         httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 3600), // 1 Day
+        expires: new Date(Date.now() + 1000 * 3600), // 1 Hour
     });
 
     if(result){
@@ -120,11 +120,11 @@ export const signin = asyncHandler(async (req,res)=>{
 //LOGOUT USER
 export const logoutUser=asyncHandler(async (req,res,next)=>{
     res.cookie("token","",{
-        path: "/",
+        // path: "/",
         httpOnly: true,
         expires: new Date(0), //current second
-        sameSite: "none",
-        secure: true,
+        // sameSite: "none",
+        // secure: true,
     });
     return res.status(200).json({ message:"Successfully Logged Out..."});
 })

@@ -82,9 +82,9 @@ const Settings = () => {
       formData.append("logo",logo);
       dispatch(updateProfile(profiles?._id, formData));
       
-      const { data: { data } } = await api.fetchProfilesByUser({ search: user?.result?._id })
-      setProfiles(data);
-      dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
+      // const { data: { data } } = await api.fetchProfilesByUser({ search: user?.result?._id })
+      // setProfiles(data);
+      // dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
 
       setIsEdit(false);
     }

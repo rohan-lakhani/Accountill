@@ -72,7 +72,7 @@ const Dashboard = () => {
     let history = [];
     if(invoices[i].paymentRecords !== undefined){
       history = [...paymentHistory, invoices[i].paymentRecords];
-      paymentHistory = [].concat.apply([],history);
+      paymentHistory = [].concat(...history);
     }
   }
 

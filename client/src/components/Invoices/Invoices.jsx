@@ -165,7 +165,7 @@ const Invoices = () => {
 
                     <TableCell onClick={() => openInvoice(invoice._id)}>{moment(invoice.dueDate).format("MMM Do YYYY")}</TableCell>
 
-                    <TableCell onClick={() => openInvoice(invoice._id)} sx={{backgroundColor:""}}><button onClick={checkStatus(invoice.status)}>{invoice.status}</button></TableCell>
+                    <TableCell onClick={() => openInvoice(invoice._id)}>{invoice.status}</TableCell>
                     
                     <TableCell align='center' onClick={() => editInvoice(invoice._id)} sx={{backgroundColor:"", width:"50px", cursor:"pointer"}}><ModeEditIcon/></TableCell>
 

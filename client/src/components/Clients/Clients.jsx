@@ -189,7 +189,7 @@ const Clients = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" sx={{backgroundColor:"#1976D2", color:"white"}}>
-          New Customer
+          Edit Customer
         </DialogTitle>
         <form onSubmit={editClient}>
           <DialogContent sx={{marginTop:"10px"}}>

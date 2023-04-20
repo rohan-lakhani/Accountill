@@ -21,12 +21,6 @@ function App() {
 
   const name = JSON.parse(localStorage.getItem('profile'));
 
-  // const user = true;
-  // console.log(user);
-
-
-  
-
   return (
     <div className='relative'>
       <BrowserRouter>
