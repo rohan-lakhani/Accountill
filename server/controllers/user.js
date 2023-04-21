@@ -171,16 +171,19 @@ export const forgotPassword = asyncHandler(async(req,res) => {
     user.resetToken = hashedToken;
     user.expiresToken = Date.now() + 1 * 60 * 60 * 1000; // 1 Hour
 
+    const baseUrl = process.env.BASE_URL
+    // const baseUrl = "http://localhost:3000"
+
     await user.save();
 
     //Reset Email
     const message = `
         <h2>Hello ${user.name}</h2>
         <p>You requested for password reset from Arc Invoicing application</p>
-        <p>This reset link is valid for only 30minutes.</p>
-        <h5>Please click this <a href="http://107.21.166.104:3000/reset/${resetToken}">link</a> to reset your password</h5>
+        <p>This reset link is valid for only 30 minutes.</p>
+        <h5>Please click this <a href="${baseUrl}/reset/${resetToken}">link</a> to reset your password</h5>
         <p>Link not clickable?, copy and paste the following url in your address bar.</p>
-        <p>${process.env.FRONTEND_URL}/reset/${resetToken}</p>
+        <p>${baseUrl}/reset/${resetToken}</p>
         <P>If this was a mistake, just ignore this email and nothing will happen.</P>
         <p>Regards...</p>
         <p>Accountill Team</p>
