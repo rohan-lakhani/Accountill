@@ -13,6 +13,7 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import MailIcon from '@mui/icons-material/Mail';
+import Spinner from '../Spinner/Spinner';
 
 import * as api from '../../api/index';
 
@@ -32,13 +33,14 @@ import * as api from '../../api/index';
 const Settings = () => {
 
   useRedirectLoggedOutUser("/login");
-
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
     const [form, setForm] = useState();
     const [logo, setLogo] = useState("");
     const user = JSON.parse(localStorage.getItem('profile'));
     const [profiles,setProfiles] = useState({});
+    const isLoading = useSelector(state => state.profiles.isLoading);
+    console.log(isLoading);
     
     useEffect(() => {
 
@@ -46,6 +48,7 @@ const Settings = () => {
           try {
             const { data: { data } } = await api.fetchProfilesByUser(searchQuery)
             setProfiles(data);
+            console.log(data);
             dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
           } catch (error) {
             console.log(error.response)
@@ -60,8 +63,6 @@ const Settings = () => {
         setForm(profiles)
       }
     },[isEdit])
-
-    // const classes = Styles();
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
     const setEdit = (e) => setIsEdit(true);

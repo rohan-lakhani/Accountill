@@ -1,6 +1,6 @@
 import { FETCH_PROFILES, CREATE_PROFILE, FETCH_PROFILES_BY_USER, UPDATE_PROFILE, DELETE_PROFILE, FETCH_PROFILE_BY_USER, START_LOADING, END_LOADING, FETCH_PROFILE } from '../actions/constants';
 
-const profilesReducer = (state = { isLoading: true, profiles: [] }, action) => {
+const profiles = (state = { isLoading: true, profiles: [] }, action) => {
   switch (action.type) {
     case START_LOADING:
       return {...state, isLoading: true }
@@ -31,4 +31,4 @@ const profilesReducer = (state = { isLoading: true, profiles: [] }, action) => {
   }
 };
 
-export default profilesReducer
+export default profiles
