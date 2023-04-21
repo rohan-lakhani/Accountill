@@ -19,7 +19,7 @@ const Reset = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useParams();
-  const { password, password2 } = formData;
+  const { password, password2 } = form;
   const user = JSON.parse(localStorage.getItem('profile'));
 
 
@@ -40,9 +40,9 @@ const Reset = () => {
   }
 
   // const handleChange = (e) => setForm(e.target.value);
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setForm({ ...form, [name]: value });
 }
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
