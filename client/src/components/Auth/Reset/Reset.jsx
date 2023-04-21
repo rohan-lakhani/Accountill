@@ -7,23 +7,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../../Spinner/Spinner';
 import { END_LOADING, START_LOADING } from '../../../actions/constants';
 
+const initialState = {
+  password: "",
+  password2: "",
+};
 
 const Reset = () => {
 
   // const classes = useStyles();
-  const [form, setForm] = useState("");
+  const [form, setForm] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useParams()
+  const { token } = useParams();
+  const { password, password2 } = formData;
   const user = JSON.parse(localStorage.getItem('profile'));
 
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(reset({ password: form, token: token}))
+    e.preventDefault();
+
+    if(!password || !password2){
+      return toast.error("All fields are required");
+  }
+  if(password.length < 6){
+      return toast.error("Password must be up to 6 characters");
+  }
+  if(password !== password2){
+      return toast.error("Passwords do not match");
   }
 
-  const handleChange = (e) => setForm(e.target.value);
+    dispatch(reset({ password: password, token: token}))
+  }
+
+  // const handleChange = (e) => setForm(e.target.value);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+}
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -41,8 +61,8 @@ const Reset = () => {
                 <div class="p-4 w-4/5 sm:w-3/4 md:w-1/2 lg:w-1/4 bg-slate-700 rounded-xl">
                 <form class="form-control flex justify" onSubmit={handleSubmit}>
                     <input type="password" placeholder="New Password" required name='password' onChange={handleChange} class="input"/>
-{/* 
-                    <input type="password" placeholder="Confrim Password" required name='password2' onChange={handleInputChange} class="input mt-2"/> */}
+
+                    <input type="password" placeholder="Confrim Password" required name='password2' onChange={handleChange} class="input mt-2"/>
 
                     <div className='flex justify-center'>
                     <button className='btn btn-sm text-lg mt-4 pb-1 normal-case bg-blue-600 text-white
