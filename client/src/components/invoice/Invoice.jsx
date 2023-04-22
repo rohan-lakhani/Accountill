@@ -159,8 +159,9 @@ const Invoice = () => {
 
     const getTotalCount = async() => {
       try{
-        const response = await axios.get(`/invoices/count?searchQuery=${user?.result?._id}`);
-        setInvoiceData({...invoiceData, invoiceNumber:(Number(response.data) + 1).toString().padStart(3, '0')})
+        const randomNumber = Math.floor(Math.random() * 10000) + 1;
+        console.log("response",randomNumber);
+        setInvoiceData({...invoiceData, invoiceNumber:randomNumber});
       }catch(error){
         console.log(error.response.data.message);
       }
