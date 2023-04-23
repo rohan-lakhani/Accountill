@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -22,6 +22,11 @@ const Reset = () => {
   const { password, password2 } = form;
   const user = JSON.parse(localStorage.getItem('profile'));
 
+  useEffect(() => {
+    if(user!=null) {
+      navigate('/dashboard')
+    }
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();

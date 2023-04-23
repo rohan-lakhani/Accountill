@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,7 +12,6 @@ const Forgot = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("profile"));
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(forgot({email: form}));
@@ -20,9 +19,11 @@ const Forgot = () => {
 
     const handleChange = (e) => setForm(e.target.value);
 
-    if(user){
-        navigate('/dashboard');
-    }
+    useEffect(() => {
+        if(user!=null) {
+          navigate('/dashboard')
+        }
+      }, [])
 
   return (
     <div>

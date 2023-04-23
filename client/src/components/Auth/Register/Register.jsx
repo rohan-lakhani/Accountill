@@ -25,7 +25,13 @@ const Register = () => {
     const { firstName, lastName, email, password, password2 } = formData;
     const isLoading = useSelector(state => state.auth.isLoading);
 
+    const user = localStorage.getItem('profile')
 
+    useEffect(() => {
+        if(user!=null) {
+          navigate('/dashboard')
+        }
+      }, [])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
