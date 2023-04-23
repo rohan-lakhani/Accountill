@@ -1,25 +1,24 @@
 import mongoose from "mongoose";
 
-const tokenSchema=mongoose.Schema({
-    userId:{
+const tokenSchema = mongoose.Schema({
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:"User",
+        required: true,
+        ref: "User",
     },
-    token:{
+    token: {
         type: String,
         required: true,
     },
-    createdAt:{
+    createdAt: {
         type: Date,
         required: true,
     },
-    expiresAt:{
+    expiresAt: {
         type: Date,
         required: true,
     },
-})
+});
 
-const Token = mongoose.model("Token",tokenSchema);
+const Token = mongoose.model("Token", tokenSchema);
 export default Token;
-    

@@ -1,21 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
 
-import { createStore, applyMiddleware, compose} from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import reducers from './reducers'
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import reducers from "./reducers";
 
 console.log(import.meta.env.VITE_API_BASE_URL);
 
-const store = createStore(reducers, compose(applyMiddleware(thunk)))
+const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store} >
-    <App />
-  </Provider>,
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
-

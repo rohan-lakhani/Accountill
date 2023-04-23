@@ -1,26 +1,26 @@
 import moment from "moment";
 
-export default function (
-   {  name,
-      address,
-      phone,
-      email,
-      dueDate,
-      date,
-      id,
-      notes,
-      subTotal,
-      type,
-      vat,
-      total,
-      items,
-      status,
-      totalAmountReceived,
-      balanceDue,
-      company,
-   }) {
+export default function ({
+    name,
+    address,
+    phone,
+    email,
+    dueDate,
+    date,
+    id,
+    notes,
+    subTotal,
+    type,
+    vat,
+    total,
+    items,
+    status,
+    totalAmountReceived,
+    balanceDue,
+    company,
+}) {
     const today = new Date();
-return `
+    return `
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,7 +122,9 @@ img {
 
       <div>
           <p class="title">From:</p>
-          <h4 style="font-size: 9px; line-height: 5px">${company.businessName ? company.businessName : company.name}</h4>
+          <h4 style="font-size: 9px; line-height: 5px">${
+              company.businessName ? company.businessName : company.name
+          }</h4>
           <p style="font-size: 9px; line-height: 5px">${company.email}</p>
           <p style="font-size: 9px; line-height: 5px">${company.phoneNumber}</p>
           <p style="font-size: 9px; line-height: 5px">${company.contactAddress}</p>
@@ -137,14 +139,14 @@ img {
       </div>
 
     <div class="status" style="margin-top: -280px">
-        <h1 style="font-size: 12px">${Number(balanceDue) <= 0 ? 'Receipt' : type}</h1>
+        <h1 style="font-size: 12px">${Number(balanceDue) <= 0 ? "Receipt" : type}</h1>
         <p style="font-size: 8px; margin-bottom: 10px">${id}</p>
         <p class="title" style="font-size: 8px">Status</p>
         <h3 style="font-size: 12px">${status}</h3>
         <p class="title" style="font-size: 8px">Date</p>
-        <p  style="font-size: 9px" >${moment(date).format('ll')}</p>
+        <p  style="font-size: 9px" >${moment(date).format("ll")}</p>
         <p class="title"  style="font-size: 8px">Due Date</p>
-        <p  style="font-size: 9px">${moment(dueDate).format('ll')}</p>
+        <p  style="font-size: 9px">${moment(dueDate).format("ll")}</p>
         <p class="title"  style="font-size: 8px">Amount</p>
         <h3 style="font-size: 12px">${total}</h3>
     </div>
@@ -159,17 +161,18 @@ img {
     <th style="text-align: right; font-size: 9px">Amount</th>
   </tr>
 
-  ${
-   items.map((item) => (
- `  <tr>
+  ${items.map(
+      (item) =>
+          `  <tr>
     <td style="font-size: 9px">${item.itemName}</td>
     <td style="font-size: 9px">${item.quantity}</td>
     <td style="font-size: 9px">${item.unitPrice}</td>
     <td style="font-size: 9px">${item.discount}</td>
-    <td style="text-align: right; font-size: 9px">${(item.quantity * item.unitPrice) - (item.quantity * item.unitPrice) * item.discount / 100}</td>
+    <td style="text-align: right; font-size: 9px">${
+        item.quantity * item.unitPrice - (item.quantity * item.unitPrice * item.discount) / 100
+    }</td>
   </tr>`
-   ))
-  }
+  )}
 
 
 </table>
@@ -210,10 +213,9 @@ img {
   <div>
       <hr>
       <h4 style="font-size: 9px">Note</h4>
-      <p style="font-size: 9px">${notes? notes : ""}</p>
+      <p style="font-size: 9px">${notes ? notes : ""}</p>
   </div>
 </div>
 </body>
-</html>`
-;
-};
+</html>`;
+}
