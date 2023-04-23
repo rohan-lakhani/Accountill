@@ -45,6 +45,9 @@ import PaymentHistory from "./PaymentHistory";
 import Spinner from "../Spinner/Spinner";
 import { toast } from "react-toastify";
 
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+axios.defaults.withCredentials = true;
+
 const columns = [
     { id: "item", label: "Item", minWidth: 200 },
     { id: "qty", label: "Qty" },
