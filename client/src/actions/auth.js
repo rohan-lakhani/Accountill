@@ -1,23 +1,22 @@
 import * as api from '../api/index'
 import { AUTH, CREATE_PROFILE, END_LOADING, START_LOADING } from './constants'
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-
-
 
 export const signin =(formData) => async(dispatch) => {
 
     try {
         dispatch({ type: START_LOADING })
         //login the user
+        console.log("dispatched loading");
         const { data } = await api.signIn(formData)
         console.log("data", data);
 
         dispatch({ type: AUTH, data })
         dispatch({ type: END_LOADING })
         toast.success("Signin successfull")
+
         // history.push('/dashboard')
-        window.location.href="/dashboard"
+        // window.location.href="/dashboard"
 
     } catch (error) {
         // console.log(error?.response?.data?.message)

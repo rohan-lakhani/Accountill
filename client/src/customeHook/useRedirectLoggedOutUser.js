@@ -18,7 +18,7 @@ const useRedirectLoggedOutUser = (path) => {
             if(!isLoggedIn) {
                 await logoutUser();
                 await dispatch({ type: LOGOUT });
-                toast.info("Session expired, please login to continue.");
+                // toast.info("Session expired, please login to continue.");
                 dispatch({ type: END_LOADING })
                 navigate(path);
                 return;

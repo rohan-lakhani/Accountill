@@ -23,11 +23,20 @@ const Login = () => {
 
     const user = JSON.parse(localStorage.getItem('profile'));
   
+    const loginUser = async (e) => {
+        e.preventDefault();
+        const formData = {
+            email,
+            password,
+        };
+        dispatch(signin(formData))
+    }
+
     useEffect(() => {
         if(user!=null) {
         navigate('/dashboard')
         }
-    }, [])
+    }, [loginUser])
 
 
     const handleInputChange = (e) => {
@@ -35,16 +44,7 @@ const Login = () => {
         setFormData({ ...formData, [name]: value });
     }
 
-    const loginUser = async (e) => {
-        e.preventDefault();
-        const formData = {
-            email,
-            password,
-        };
-        console.log('hello');
-        dispatch(signin(formData))
-    }
-    console.log("isLoading=",isLoading);
+    
 
     if(isLoading) {
         return  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', paddingTop: '20px'}}>
@@ -68,7 +68,7 @@ const Login = () => {
 
                     <div className='flex justify-center'>
                     <button className='btn btn-sm text-xl mt-4 pb-1 normal-case bg-blue-600 text-white
-                        hover:bg-blue-400 hover:text-black shadow-md shadow-blue-300 border-none' type='submit'>Login
+                        hover:bg-blue-400 hover:text-black shadow-md shadow-blue-300 border-none'>Login
                     </button>
                     </div>
                     <div className='text-white mt-4 flex justify-center'>

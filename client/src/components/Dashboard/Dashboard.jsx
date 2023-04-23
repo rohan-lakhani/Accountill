@@ -96,7 +96,7 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    dispatch(getInvoicesByUser({search: user?.result._id}));
+    dispatch(getInvoicesByUser({search: user?.result?._id}));
   },[location, dispatch]);
 
     const unpaidInvoice = invoices?.filter((invoice) => invoice.status === 'Unpaid')
