@@ -27,7 +27,21 @@ const app = express();
 dotenv.config();
 
 //MIDDLEWARE
-app.use(cors());
+
+// app.use(cors({
+//     origin: "*"
+// }));
+
+app.use(
+	cors({
+		origin: process.env.CLIENT_URL,
+		methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
+		allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+		credentials: true,
+		exposedHeaders: ["*", "Authorization"],
+	})
+);
+
 app.use(express.json({ limit: "30mb", extended: true}));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: "30mb", extended: true}));
