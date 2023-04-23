@@ -19,8 +19,6 @@ import Settings from './components/Settings/Settings'
 
 function App() {
 
-  const name = JSON.parse(localStorage.getItem('profile'));
-
   return (
     <div className='relative'>
       <BrowserRouter>
