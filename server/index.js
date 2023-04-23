@@ -33,7 +33,7 @@ app.use(
 		origin: process.env.CLIENT_URL,
 		methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
 		allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token", "Access-Control-Allow-Origin"],
-		// credentials: true,
+		credentials: true,
 		exposedHeaders: ["*", "Authorization"],
 	})
 );
