@@ -7,9 +7,8 @@ dotenv.config();
 const auth = asyncHandler(async (req, res, next) => {
     try {
         const token = req.headers.authorization;
-        const isCustomAuth = true;
+        const isCustomAuth = token.length < 500;
         console.log("Bearer ", token);
-
 
         if (!token) {
             res.status(401);
