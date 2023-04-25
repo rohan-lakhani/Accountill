@@ -7,9 +7,7 @@ export const signin =(formData) => async(dispatch) => {
     try {
         dispatch({ type: START_LOADING })
         //login the user
-        console.log("dispatched loading");
         const { data } = await api.signIn(formData)
-        console.log("data", data);
 
         dispatch({ type: AUTH, data })
         dispatch({ type: END_LOADING })

@@ -47,7 +47,6 @@ const Settings = () => {
                     data: { data },
                 } = await api.fetchProfilesByUser(searchQuery);
                 setProfiles(data);
-                console.log(data);
                 dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
             } catch (error) {
                 console.log(error.response);

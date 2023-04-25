@@ -154,7 +154,6 @@ const Invoice = () => {
     const getTotalCount = async () => {
         try {
             const randomNumber = Math.floor(Math.random() * 10000) + 1;
-            console.log("response", randomNumber);
             setInvoiceData({ ...invoiceData, invoiceNumber: randomNumber });
         } catch (error) {
             console.log(error.response.data.message);

@@ -21,7 +21,7 @@ export const getInvoicesByUser =(searchQuery) => async (dispatch) => {
       dispatch({ type: FETCH_INVOICE_BY_USER, payload: data });
       dispatch({ type: END_LOADING })
     } catch (error) {
-      console.log(error.response)
+    //   console.log(error.response)
       
     }
   }
@@ -36,11 +36,10 @@ export const getInvoice = (id) => async (dispatch)=> {
         const { data } = await api.fetchInvoice(id)
         const businessDetails = await api.fetchProfilesByUser({search: user?.result?._id || user?.result?.googleId})
         const invoiceData = {...data, businessDetails}
-        // console.log(invoiceData)
         dispatch({ type: GET_INVOICE, payload: invoiceData  })
         dispatch({ type: END_LOADING })
     } catch (error) {
-        console.log(error.response)
+        // console.log(error.response)
     }
 }
 
@@ -53,7 +52,7 @@ export const createInvoice =(invoice) => async (dispatch) => {
         toast.success("Invoice created successfully");
     } catch (error) {
         toast.error(error);
-        console.log(error)
+        // console.log(error)
     }
 }
 
@@ -62,11 +61,10 @@ export const updateInvoice =(id, invoice) => async (dispatch) => {
     try {
         const { data } = await api.updateInvoice(id, invoice)
         dispatch({ type: UPDATE, payload: data })
-        console.log(data);
         toast.success("Invoice updated successfully");
         
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 }
 
@@ -77,6 +75,6 @@ export const deleteInvoice =(id) => async (dispatch) => {
         dispatch({type: DELETE, payload: id})
         toast.success("Invoice deleted successfully");
     } catch (error) {
-        console.log(error.response)
+        // console.log(error.response)
     }
 }

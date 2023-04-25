@@ -149,7 +149,6 @@ const Invoices = () => {
             </div>
         );
     }
-    console.log(invoices);
 
     return (
         <div className="ml-16 pb-4 bg-gray-200" style={{ minHeight: "92.7vh" }}>
