@@ -4,10 +4,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const auth = asyncHandler(async (req, res) => {
+const auth = asyncHandler(async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(" ")[1];
-        const isCustomAuth = token.length < 500;
+        const token = req.headers.authorization;
+        const isCustomAuth = true;
+        console.log("Bearer ", token);
+
 
         if (!token) {
             res.status(401);
@@ -25,11 +27,10 @@ const auth = asyncHandler(async (req, res) => {
             decodeData = jwt.decode(token);
             req.userId = decodeData?.sub;
         }
+        next();
     } catch (error) {
         console.log(error);
-
         res.status(401);
-        throw new Error("Not authorized, please login");
     }
 });
 

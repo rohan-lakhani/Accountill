@@ -13,9 +13,7 @@ const useRedirectLoggedOutUser = (path) => {
     const redirectLoogedOutUser = async () => {
         // const isLoggedIn = await getLoginStatus();
 
-        const isLoggedIn = localStorage.getItem("profile");
-
-        console.log(isLoggedIn);
+        const isLoggedIn = JSON.parse(localStorage.getItem("profile"));
 
         if (!isLoggedIn) {
             navigate(path);
