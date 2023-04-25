@@ -6,8 +6,6 @@ const Home = () => {
 
     const user = JSON.parse(localStorage.getItem("profile"));
 
-    console.log(user != null);
-
     useEffect(() => {
         if (user != null) {
             navigate("/dashboard");
