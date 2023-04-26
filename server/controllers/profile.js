@@ -37,9 +37,6 @@ export const createProfile = asyncHandler(async (req, res) => {
     let fileData = {};
     if (req.file) {
         try {
-            console.log("file...");
-
-            console.log(req.file);
             fileData = {
                 fileName: req.file.originalname + Date.now().toString(),
                 fileType: req.file.mimetype,
@@ -91,11 +88,9 @@ export const getProfilesByUser = asyncHandler(async (req, res) => {
 //GET PROFILE BY SEARCH
 export const getProfilesBySearch = asyncHandler(async (req, res) => {
     const { searchQuery } = req.query;
-    console.log(searchQuery);
 
     const name = new RegExp(searchQuery, "i");
     const email = new RegExp(searchQuery, "i");
-    console.log(name + " " + email);
 
     const profiles = await Profile.find({ $or: [{ name }, { email }] });
 
@@ -121,7 +116,6 @@ export const updateProfile = asyncHandler(async (req, res) => {
     let fileData = {};
     if (req.file) {
         try {
-            console.log(req.file);
             fileData = {
                 fileName: req.file.originalname + Date.now().toString(),
                 fileType: req.file.mimetype,

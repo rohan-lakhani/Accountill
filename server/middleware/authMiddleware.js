@@ -6,8 +6,9 @@ dotenv.config();
 
 const auth = asyncHandler(async (req, res, next) => {
     try {
+        // const token = req.headers.authorization;
         const token = req.headers.authorization;
-        const isCustomAuth = token.length < 500;
+        console.log(req.headers);
         console.log("Bearer ", token);
 
         if (!token) {
@@ -18,7 +19,7 @@ const auth = asyncHandler(async (req, res, next) => {
         let decodeData;
 
         //If token is custom token do this
-        if (isCustomAuth) {
+        if (token) {
             decodeData = jwt.verify(token, process.env.JWT_SECRET);
             req.userId = decodeData?.id;
         } else {

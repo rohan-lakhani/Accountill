@@ -115,7 +115,6 @@ export const deleteClient = asyncHandler(async (req, res) => {
 //GET CLIENTS BY USER
 export const getClientsByUser = asyncHandler(async (req, res) => {
     const { searchQuery } = req.query;
-    console.log(searchQuery);
 
     const client = await Client.find({ userId: searchQuery });
 

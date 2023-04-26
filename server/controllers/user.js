@@ -30,7 +30,6 @@ export const signup = asyncHandler(async (req, res) => {
     const existingUser = await User.findOne({ email });
     //get userProfile and append to login auth detail
     const userProfile = await Profile.findOne({ userId: existingUser?._id });
-    console.log("profile=" + userProfile);
 
     if (existingUser) {
         res.status(400);
@@ -81,7 +80,6 @@ export const signin = asyncHandler(async (req, res) => {
     const existingUser = await User.findOne({ email });
     //get userProfile and append to login auth detail
     const userProfile = await Profile.findOne({ userId: existingUser?._id });
-    console.log("profile=" + userProfile);
 
     if (!existingUser) {
         res.status(400);
@@ -99,8 +97,6 @@ export const signin = asyncHandler(async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + 1000 * 3600), // 1 Day
     });
-
-    console.log(token);
 
     //Then send the token to the client/frontend
     if (existingUser && isPasswordCorrect) {
@@ -130,7 +126,6 @@ export const logoutUser = asyncHandler(async (req, res, next) => {
 //GET LOGIN STATUS
 export const getLoginStatus = asyncHandler(async (req, res, next) => {
     const token = req.cookies.token;
-    // console.log("token from login status "+token)
 
     if (!token) {
         return res.json(false);
