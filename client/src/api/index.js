@@ -1,22 +1,22 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
 
-// const token = JSON.parse(localStorage.getItem("profile"))?.token;
-// console.log(token);
+const token = JSON.parse(localStorage.getItem("profile"))?.token;
+console.log(token);
 
-// axios.defaults.headers.common["Authorization"] = token;
+axios.defaults.headers.common["Authorization"] = token;
 
-const API = axios.create({ baseURL: process.env.VITE_API_BASE_URL });
+// const API = axios.create({ baseURL: process.env.VITE_API_BASE_URL });
 
-API.interceptors.request.use((req) => {
-    if(localStorage.getItem('profile')){
-        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
-        console.log(JSON.parse(localStorage.getItem("profile")).token);
-    }
-    return req;
-})
+// API.interceptors.request.use((req) => {
+//     if(localStorage.getItem('profile')){
+//         req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+//         console.log(JSON.parse(localStorage.getItem("profile")).token);
+//     }
+//     return req;
+// })
 
 export const fetchInvoice = (id) => axios.get(`/api/invoices/${id}`);
 export const addInvoice = (invoice) => axios.post("/api/invoices", invoice);
