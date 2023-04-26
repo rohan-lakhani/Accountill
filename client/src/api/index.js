@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 
 // axios.defaults.headers.common["Authorization"] = token;
 
-// // const API = axios.create({ baseURL: process.env.VITE_API_BASE_URL });
+const API = axios.create({ baseURL: process.env.VITE_API_BASE_URL });
 
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')){
