@@ -7,12 +7,13 @@ dotenv.config();
 const auth = asyncHandler(async (req, res, next) => {
     try {
         const token = req.headers.authorization;
-        console.log(req.headers);
+        // console.log(req.headers);
         // const token = JSON.parse(localStorage.getItem("profile"))?.token;
-        console.log("Bearer ", token);
+        // console.log("Bearer ", token);
 
         if (!token) {
             res.status(401);
+            console.log(res.statusCode);
             throw new Error("Not authorized, please login");
         }
 
@@ -27,6 +28,7 @@ const auth = asyncHandler(async (req, res, next) => {
             decodeData = jwt.decode(token);
             req.userId = decodeData?.sub;
         }
+
         next();
     } catch (error) {
         console.log(error);
