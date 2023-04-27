@@ -3,8 +3,10 @@ import { AUTH, LOGOUT, UPDATE_USER, START_LOADING, END_LOADING } from "../action
 const authReducer = (state = { isLoading: false, authData: null }, action) => {
     switch (action.type) {
         case START_LOADING:
+            console.log("auth start");
             return { ...state, isLoading: true };
         case END_LOADING:
+            console.log("auth end");
             return { ...state, isLoading: false };
         case AUTH:
             localStorage.setItem("profile", JSON.stringify({ ...action?.data }));

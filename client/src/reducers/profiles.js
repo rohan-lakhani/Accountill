@@ -10,12 +10,14 @@ import {
     FETCH_PROFILE,
 } from "../actions/constants";
 
-const profiles = (state = { isLoading: true, profiles: [] }, action) => {
+const profiles = (state = { isLoading: false, profiles: [] }, action) => {
     switch (action.type) {
-        case START_LOADING:
-            return { ...state, isLoading: true };
-        case END_LOADING:
-            return { ...state, isLoading: false };
+        // case START_LOADING:
+        //     console.log("profile start");
+        //     return { ...state, isLoading: true };
+        // case END_LOADING:
+        //     console.log("profile end");
+        //     return { ...state, isLoading: false };
         case FETCH_PROFILES:
             return {
                 ...state,

@@ -68,17 +68,6 @@ const Invoices = () => {
         setPage(0);
     };
 
-    //hovering effect
-    const [isHovering, setIsHovering] = useState(false);
-
-    const handleMouseEnter = () => {
-        setIsHovering(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovering(false);
-    };
-
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
@@ -101,9 +90,6 @@ const Invoices = () => {
     const openInvoice = (id) => {
         navigate(`/invoice/${id}`);
     };
-    if (!user) {
-        navigate("/login");
-    }
 
     function checkStatus(status) {
         return status === "Partial"
@@ -116,19 +102,7 @@ const Invoices = () => {
     }
 
     if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
-            </div>
-        );
+        return <Spinner />;
     }
 
     if (invoices.length === 0) {

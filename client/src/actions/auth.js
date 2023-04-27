@@ -2,20 +2,19 @@ import * as api from '../api/index'
 import { AUTH, CREATE_PROFILE, END_LOADING, START_LOADING } from './constants'
 import { toast } from 'react-toastify';
 
+
 export const signin =(formData) => async(dispatch) => {
 
     try {
-        dispatch({ type: START_LOADING })
+        dispatch({ type: START_LOADING });
         //login the user
-        const { data } = await api.signIn(formData)
+        const { data } = await api.signIn(formData);
 
-        dispatch({ type: AUTH, data })
-        dispatch({ type: END_LOADING })
-        toast.success("Signin successfull")
-
-        // history.push('/dashboard')
-        // window.location.href="/dashboard"
-
+        dispatch({ type: AUTH, data });
+        // window.location.reload();
+        dispatch({ type: END_LOADING });
+        toast.success("Signin successfull");
+        // window.location.href="/dashboard";
     } catch (error) {
         // console.log(error?.response?.data?.message)
         toast.error(error?.response?.data?.message)
@@ -23,27 +22,24 @@ export const signin =(formData) => async(dispatch) => {
     }
 }
 
-export const signup =(formData) => async(dispatch) => {   
-
+export const signup =(formData) => async(dispatch) => { 
     try {
         dispatch({ type: START_LOADING })
         //Sign up the user
         const { data } = await api.signUp(formData)
-        dispatch({ type: AUTH, data})
+        console.log(data);
+        dispatch({ type: AUTH, data});
         const { info } = await api.createProfile({name: data?.result?.name, email: data?.result?.email, userId: data?.result?._id, phoneNumber: '', businessName: '', contactAddress: '', logo: '', website: '', paymentDetails: ''});
         dispatch({ type: CREATE_PROFILE, payload: info });
         dispatch({ type: END_LOADING })
         toast.success("Sign up successfully")
-        window.location.href="/dashboard"
-
+        // window.location.reload();
+        // window.location.href="/dashboard"
     } catch (error) {
-        console.log(error)
         toast.error(error?.response?.data?.message)
         dispatch({ type: END_LOADING })
     }
 }
-
-
 
 export const forgot =(formData) => async(dispatch) => {
     try {
@@ -82,8 +78,6 @@ export const logoutUser = async (dispatch) => {
 export const getLoginStatus = async () => {
     try{
         const response = await api.loginStatus();
-        // console.log("response="+response);
-        // console.log(response.data);
         return response.data;
     }catch(error){
         console.log("error");

@@ -1,29 +1,29 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import { getLoginStatus } from '../services/authServices';
 import { toast } from "react-toastify";
-import { getLoginStatus, logoutUser } from "../actions/auth";
-import { AUTH, LOGOUT, END_LOADING } from "../actions/constants";
 
 const useRedirectLoggedOutUser = (path) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLoading = useSelector((state) => state.auth.isLoading);
 
-    const redirectLoogedOutUser = async () => {
-        // const isLoggedIn = await getLoginStatus();
+    if (isLoading) {
+        dispatch({ type: "END_LOADING" });
+    }
 
-        const isLoggedIn = JSON.parse(localStorage.getItem("profile"));
-
-        if (!isLoggedIn) {
-            navigate(path);
-            return;
-        }
-    };
-
+    const isLoggedIn = JSON.parse(localStorage.getItem("profile"));
     useEffect(() => {
+        const redirectLoogedOutUser =  () => {
+            if (!isLoggedIn) {
+                toast.error("Not authorized, Please Login");
+                navigate(path);
+                return;
+            }
+        };
         redirectLoogedOutUser();
-    }, [navigate, path, dispatch]);
+    }, []);
 };
 
 export default useRedirectLoggedOutUser;

@@ -26,12 +26,6 @@ const Register = () => {
 
     const user = localStorage.getItem("profile");
 
-    useEffect(() => {
-        if (user != null) {
-            navigate("/dashboard");
-        }
-    }, []);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -46,9 +40,6 @@ const Register = () => {
         if (password.length < 6) {
             return toast.error("Password must be up to 6 characters");
         }
-        // if(!validateEmail(email)){
-        //     return toast.error("Please enter a avalid email");
-        // }
         if (password !== password2) {
             return toast.error("Passwords do not match");
         }
@@ -63,20 +54,14 @@ const Register = () => {
         dispatch(signup(formData));
     };
 
+    useEffect(() => {
+        if (user != null) {
+            navigate("/dashboard");
+        }
+    }, [registerUser, user]);
+
     if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
-            </div>
-        );
+        return <Spinner />;
     }
 
     return (

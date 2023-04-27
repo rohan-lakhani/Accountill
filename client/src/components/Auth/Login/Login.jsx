@@ -11,7 +11,6 @@ const initialState = {
     email: "",
     password: "",
 };
-
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -34,7 +33,7 @@ const Login = () => {
         if (user != null) {
             navigate("/dashboard");
         }
-    }, [loginUser]);
+    }, [loginUser, user]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -42,19 +41,7 @@ const Login = () => {
     };
 
     if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
-            </div>
-        );
+        return <Spinner />;
     }
 
     return (

@@ -6,6 +6,7 @@ import { toCommas } from "../../utils/utils";
 import Spinner from "../Spinner/Spinner";
 import { getInvoicesByUser } from "../../actions/invoiceActions";
 import moment from "moment";
+import image_1 from "../../images/image_1.jpeg";
 
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import PaymentIcon from "@mui/icons-material/Payment";
@@ -50,11 +51,8 @@ const columns = [
     },
 ];
 
-function createData(name, date, amount, paymentMethod, note) {
-    return { name, date, amount, paymentMethod, note };
-}
-
 const Dashboard = () => {
+
     useRedirectLoggedOutUser("/login");
 
     const dispatch = useDispatch();
@@ -63,6 +61,7 @@ const Dashboard = () => {
     const user = JSON.parse(localStorage.getItem("profile"));
     const { invoices, isLoading } = useSelector((state) => state?.invoices);
     const overDue = invoices?.filter((invoice) => invoice.dueDate <= new Date().toISOString());
+    // const isLoggedIn = JSON.parse(localStorage.getItem("profile"));
 
     let paymentHistory = [];
     for (let i = 0; i < invoices.length; i++) {
@@ -94,15 +93,11 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getInvoicesByUser({ search: user?.result?._id }));
-    }, [location, dispatch]);
+    }, []);
 
     const unpaidInvoice = invoices?.filter((invoice) => invoice.status === "Unpaid");
     const paid = invoices?.filter((invoice) => invoice.status === "Paid");
     const partial = invoices?.filter((invoice) => invoice.status === "Partial");
-
-    if (!user) {
-        navigate("/login");
-    }
 
     // data=products;
     const [page, setPage] = React.useState(0);
@@ -117,201 +112,208 @@ const Dashboard = () => {
         setPage(0);
     };
 
+    // if (!user) {
+    //     console.log("null");
+    //     navigate("/login");
+    // }
+
+    // useEffect(() => {
+    //     if (!user) {
+    //         console.log("No");
+    //         dispatch({ type: "END_LOADING" });
+    //         console.log("null");
+    //         // navigate("/login");
+    //     }
+    // }, [user, navigate]);
+    console.log(invoices.length);
+
     if (isLoading) {
+        return <Spinner />;
+    }
+
+    if (user) {
         return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
+            <div className="ml-16 pb-4 bg-gray-200" style={{ minHeight: "92.7vh" }}>
+                <div className="mx-6">
+                    <div class="grid grid-cols-5 gap-2 p-2">
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "rgb(158, 180, 237)" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{toCommas(totalPaid.toFixed(2))}</h1>
+                                <p className="text-md">Payment Received</p>
+                            </div>
+                            <div>
+                                <TaskAltIcon style={{ fontSize: "30px", color: "blue" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "white" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{toCommas((totalAmount - totalPaid).toFixed(2))}</h1>
+                                <p className="text-md">Pending Amount</p>
+                            </div>
+                            <div>
+                                <AccountBalanceWalletIcon style={{ fontSize: "30px", color: "green" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "white" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{toCommas(totalAmount.toFixed(2))}</h1>
+                                <p className="text-md">Total Amount</p>
+                            </div>
+                            <div>
+                                <AccountBalanceIcon style={{ fontSize: "30px", color: "rgb(105, 142, 236)" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "white" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{invoices.length}</h1>
+                                <p className="text-md">Total Invoices</p>
+                            </div>
+                            <div>
+                                <PaymentIcon style={{ fontSize: "30px", color: "green" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "rgb(150, 232, 150)" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{paid.length}</h1>
+                                <p className="text-md">Paid Invoices</p>
+                            </div>
+                            <div>
+                                <TaskAltIcon style={{ fontSize: "30px", color: "green" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "white" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{partial.length}</h1>
+                                <p className="text-md">Partially Paid Invoices</p>
+                            </div>
+                            <div>
+                                <DescriptionIcon style={{ fontSize: "30px", color: "green" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "white" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{unpaidInvoice.length}</h1>
+                                <p className="text-md">Unpaid Invoices</p>
+                            </div>
+                            <div>
+                                <SentimentVeryDissatisfiedIcon style={{ fontSize: "30px", color: "red" }} />
+                            </div>
+                        </div>
+
+                        <div
+                            className="flex p-6 items-center justify-between rounded-xl"
+                            style={{ backgroundColor: "white" }}
+                        >
+                            <div>
+                                <h1 className="text-3xl">{overDue.length}</h1>
+                                <p className="text-md">Overdue</p>
+                            </div>
+                            <div>
+                                <AccessTimeIcon style={{ fontSize: "30px", color: "red" }} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 className="text-center my-4 text-2xl font-medium">Recent Payments</h1>
+
+                    {paymentHistory.length !== 0 ? (
+                        <div>
+                            <Paper sx={{ width: "100%", overflow: "hidden" }}>
+                                <TableContainer sx={{ maxHeight: 440 }}>
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            {paymentHistory.length !== 0 && (
+                                                <TableRow>
+                                                    {columns.map((column) => (
+                                                        <TableCell
+                                                            key={column.id}
+                                                            align={column.align}
+                                                            style={{
+                                                                minWidth: column.minWidth,
+                                                                backgroundColor: "white",
+                                                                fontSize: "large",
+                                                                fontWeight: "bold",
+                                                                color: "rgb(67, 65, 65)",
+                                                            }}
+                                                        >
+                                                            {column.label}
+                                                        </TableCell>
+                                                    ))}
+                                                </TableRow>
+                                            )}
+                                        </TableHead>
+                                        <TableBody>
+                                            {sortHistoryByDate
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((record, index) => {
+                                                    return (
+                                                        <TableRow hover role="checkbox" tabIndex={-1} key={record._id}>
+                                                            <TableCell>{record?.paidBy}</TableCell>
+                                                            <TableCell>
+                                                                {moment(record?.datePaid).format("YYYY-MM-DD")}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {toCommas(record?.amountPaid.toFixed(2))}
+                                                            </TableCell>
+                                                            <TableCell>{record?.paymentMethod}</TableCell>
+                                                            <TableCell>{record?.note}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[3, 5, 10, 25, 100]}
+                                    component="div"
+                                    count={sortHistoryByDate.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    style={{ color: "black", fontWeight: "bold" }}
+                                />
+                            </Paper>
+                        </div>
+                    ) : (
+                        <p
+                            className="bg-red-500 text-2xl p-2 text-white rounded-md"
+                            style={{ textAlign: "center", backgroundColor: "rgb(30, 40, 64)" }}
+                        >
+                            -- No Recent Payments --
+                        </p>
+                    )}
+                </div>
             </div>
         );
     }
-
-    return (
-        <div className="ml-16 pb-4 bg-gray-200" style={{ minHeight: "92.7vh" }}>
-            <div className="mx-6">
-                <div class="grid grid-cols-5 gap-2 p-2">
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "rgb(158, 180, 237)" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{toCommas(totalPaid.toFixed(2))}</h1>
-                            <p className="text-md">Payment Received</p>
-                        </div>
-                        <div>
-                            <TaskAltIcon style={{ fontSize: "30px", color: "blue" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "white" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{toCommas((totalAmount - totalPaid).toFixed(2))}</h1>
-                            <p className="text-md">Pending Amount</p>
-                        </div>
-                        <div>
-                            <AccountBalanceWalletIcon style={{ fontSize: "30px", color: "green" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "white" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{toCommas(totalAmount.toFixed(2))}</h1>
-                            <p className="text-md">Total Amount</p>
-                        </div>
-                        <div>
-                            <AccountBalanceIcon style={{ fontSize: "30px", color: "rgb(105, 142, 236)" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "white" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{invoices.length}</h1>
-                            <p className="text-md">Total Invoices</p>
-                        </div>
-                        <div>
-                            <PaymentIcon style={{ fontSize: "30px", color: "green" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "rgb(150, 232, 150)" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{paid.length}</h1>
-                            <p className="text-md">Paid Invoices</p>
-                        </div>
-                        <div>
-                            <TaskAltIcon style={{ fontSize: "30px", color: "green" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "white" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{partial.length}</h1>
-                            <p className="text-md">Partially Paid Invoices</p>
-                        </div>
-                        <div>
-                            <DescriptionIcon style={{ fontSize: "30px", color: "green" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "white" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{unpaidInvoice.length}</h1>
-                            <p className="text-md">Unpaid Invoices</p>
-                        </div>
-                        <div>
-                            <SentimentVeryDissatisfiedIcon style={{ fontSize: "30px", color: "red" }} />
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex p-6 items-center justify-between rounded-xl"
-                        style={{ backgroundColor: "white" }}
-                    >
-                        <div>
-                            <h1 className="text-3xl">{overDue.length}</h1>
-                            <p className="text-md">Overdue</p>
-                        </div>
-                        <div>
-                            <AccessTimeIcon style={{ fontSize: "30px", color: "red" }} />
-                        </div>
-                    </div>
-                </div>
-
-                <h1 className="text-center my-4 text-2xl font-medium">Recent Payments</h1>
-
-                {paymentHistory.length !== 0 ? (
-                    <div>
-                        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-                            <TableContainer sx={{ maxHeight: 440 }}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                        {paymentHistory.length !== 0 && (
-                                            <TableRow>
-                                                {columns.map((column) => (
-                                                    <TableCell
-                                                        key={column.id}
-                                                        align={column.align}
-                                                        style={{
-                                                            minWidth: column.minWidth,
-                                                            backgroundColor: "white",
-                                                            fontSize: "large",
-                                                            fontWeight: "bold",
-                                                            color: "rgb(67, 65, 65)",
-                                                        }}
-                                                    >
-                                                        {column.label}
-                                                    </TableCell>
-                                                ))}
-                                            </TableRow>
-                                        )}
-                                    </TableHead>
-                                    <TableBody>
-                                        {sortHistoryByDate
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((record, index) => {
-                                                return (
-                                                    <TableRow hover role="checkbox" tabIndex={-1} key={record._id}>
-                                                        <TableCell>{record?.paidBy}</TableCell>
-                                                        <TableCell>
-                                                            {moment(record?.datePaid).format("YYYY-MM-DD")}
-                                                        </TableCell>
-                                                        <TableCell>{toCommas(record?.amountPaid.toFixed(2))}</TableCell>
-                                                        <TableCell>{record?.paymentMethod}</TableCell>
-                                                        <TableCell>{record?.note}</TableCell>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[3, 5, 10, 25, 100]}
-                                component="div"
-                                count={sortHistoryByDate.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                style={{ color: "black", fontWeight: "bold" }}
-                            />
-                        </Paper>
-                    </div>
-                ) : (
-                    <p
-                        className="bg-red-500 text-2xl p-2 text-white rounded-md"
-                        style={{ textAlign: "center", backgroundColor: "rgb(30, 40, 64)" }}
-                    >
-                        -- No Recent Payments --
-                    </p>
-                )}
-            </div>
-        </div>
-    );
 };
 
 export default Dashboard;

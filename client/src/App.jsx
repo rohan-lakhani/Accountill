@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import Home from "./components/Home/Home";
@@ -16,12 +16,14 @@ import Invoices from "./components/Invoices/Invoices";
 import InvoiceDetails from "./components/invoiceDetails/InvoiceDetails";
 import Clients from "./components/Clients/Clients";
 import Settings from "./components/Settings/Settings";
+import Protected from "./components/protected/Protected";
 
 function App() {
+    const isLoggedIn = JSON.parse(localStorage.getItem("profile")) !== null ? true : false;
     return (
         <div className="relative">
             <BrowserRouter>
-                <ToastContainer />
+                <ToastContainer autoClose={1000} theme="dark" />
                 <NavBar />
                 <Header />
                 <Routes>
@@ -31,12 +33,14 @@ function App() {
                     <Route path="/forgot" exact element={<Forgot />} />
                     <Route path="/reset/:token" exact element={<Reset />} />
                     <Route path="/dashboard" exact element={<Dashboard />} />
+                    {/* <Route element={<Protected />}> */}
                     <Route path="/invoices" exact element={<Invoices />} />
                     <Route path="/customers" exact element={<Clients />} />
                     <Route path="/settings" exact element={<Settings />} />
                     <Route path="/invoice" exact element={<Invoice />} />
                     <Route path="/invoice/:id" exact element={<InvoiceDetails />} />
                     <Route path="/edit/invoice/:id" exact element={<Invoice />} />
+                    {/* </Route> */}
                 </Routes>
                 <AddIconFooter />
             </BrowserRouter>

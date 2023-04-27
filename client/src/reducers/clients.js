@@ -9,12 +9,14 @@ import {
     END_LOADING,
 } from "../actions/constants";
 
-const clients = (state = { isLoading: true, clients: [] }, action) => {
+const clients = (state = { isLoading: false, clients: [] }, action) => {
     switch (action.type) {
-        case START_LOADING:
-            return { ...state, isLoading: true };
-        case END_LOADING:
-            return { ...state, isLoading: false };
+        // case START_LOADING:
+        //     console.log("client start");
+        //     return { ...state, isLoading: true };
+        // case END_LOADING:
+        //     console.log("client end");
+        //     return { ...state, isLoading: false };
         case ALL_CLIENTS:
             return {
                 ...state,

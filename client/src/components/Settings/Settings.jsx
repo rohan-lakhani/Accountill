@@ -57,6 +57,7 @@ const Settings = () => {
         getProfile({ search: user?.result?._id });
     }, [isEdit]);
 
+    console.log("edit ", isEdit);
     useEffect(() => {
         if (isEdit === true) {
             setForm(profiles);
@@ -90,19 +91,7 @@ const Settings = () => {
     };
 
     if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
-            </div>
-        );
+        return <Spinner />;
     }
 
     return (

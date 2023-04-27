@@ -4,8 +4,6 @@ axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
 
 const token = JSON.parse(localStorage.getItem("profile"))?.token;
-console.log(token);
-
 axios.defaults.headers.common["Authorization"] = token;
 
 // const API = axios.create({ baseURL: process.env.VITE_API_BASE_URL });

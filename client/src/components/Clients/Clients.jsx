@@ -56,6 +56,7 @@ const columns = [
 ];
 
 const Clients = () => {
+    useRedirectLoggedOutUser("/login");
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -78,20 +79,18 @@ const Clients = () => {
         setOpenn(false);
     };
 
+    
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem("profile"));
+    const { clients } = useSelector((state) => state.clients);
+    const isLoading = useSelector((state) => state.clients.isLoading);
     const [clientData, setClientData] = useState({ name: "", email: "", phone: "", address: "", userId: "" });
 
     useEffect(() => {
         dispatch(getClientsByUser({ search: user?.result?._id }));
     }, []);
-
-    const navigate = useNavigate();
-    // const location = useLocation();
-    const dispatch = useDispatch();
-    const user = JSON.parse(localStorage.getItem("profile"));
-    const { clients } = useSelector((state) => state.clients);
-    const isLoading = useSelector((state) => state.clients.isLoading);
-
-    useRedirectLoggedOutUser("/login");
 
     const editClient = (e) => {
         e.preventDefault();
@@ -103,24 +102,8 @@ const Clients = () => {
         dispatch(deleteClient(id));
     };
 
-    if (!user) {
-        navigate("/login");
-    }
-
     if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
-            </div>
-        );
+        return <Spinner />;
     }
 
     if (clients?.length === 0) {

@@ -131,13 +131,19 @@ const Invoice = () => {
 
     const clients = useSelector((state) => state.clients.clients);
 
-    const { invoice } = useSelector((state) => state.invoices);
+    const { invoice, isError } = useSelector((state) => state.invoices);
+
+    console.log("error ", isError);
+    
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("profile"));
-
     const [openn, setOpenn] = React.useState(false);
+
+    if (isError) {
+        navigate("/dashboard");
+    }
 
     const handleClickOpen = () => {
         setOpenn(true);
@@ -187,16 +193,6 @@ const Invoice = () => {
             setStatus("Unpaid");
         }
     }, [type]);
-
-    const defaultProps = {
-        options: currencies,
-        getOptionLabel: (option) => option.label,
-    };
-
-    const clientsProps = {
-        options: clients,
-        getOptionLabel: (option) => option.name,
-    };
 
     const handleRates = (e) => {
         setRates(e.target.value);
@@ -248,7 +244,6 @@ const Invoice = () => {
         const values = invoiceData.items;
         values.splice(index, 1);
         setInvoiceData((prevState) => ({ ...prevState, values }));
-        // console.log(values)
     };
 
     const addClient = (e) => {
@@ -433,9 +428,9 @@ const Invoice = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {invoiceData.items
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((item, index) => {
+                                        {invoiceData?.items
+                                            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            ?.map((item, index) => {
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={item.index}>
                                                         <TableCell scope="row">

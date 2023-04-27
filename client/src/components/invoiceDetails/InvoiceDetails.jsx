@@ -130,14 +130,18 @@ const InvoiceDetails = () => {
 
     const { id } = useParams();
 
-    const { invoice } = useSelector((state) => state.invoices);
+    const { invoice, isError } = useSelector((state) => state.invoices);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [company, setCompany] = React.useState({});
     const [sendStatus, setSendStatus] = React.useState(null);
     const [downloadStatus, setDownloadStatus] = React.useState(null);
-
     const user = JSON.parse(localStorage.getItem("profile"));
+
+    if (isError) {
+        navigate("/dashboard");
+    }
 
     const [openn, setOpenn] = React.useState(false);
 
@@ -258,19 +262,7 @@ const InvoiceDetails = () => {
     }
 
     if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    paddingTop: "20px",
-                }}
-            >
-                <Spinner />
-            </div>
-        );
+        return <Spinner />;
     }
 
     return (
