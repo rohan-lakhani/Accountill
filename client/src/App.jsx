@@ -40,6 +40,7 @@ function App() {
                     <Route path="/invoice" exact element={<Invoice />} />
                     <Route path="/invoice/:id" exact element={<InvoiceDetails />} />
                     <Route path="/edit/invoice/:id" exact element={<Invoice />} />
+                    <Route path="/*" element={<Home />} />
                     {/* </Route> */}
                 </Routes>
                 <AddIconFooter />

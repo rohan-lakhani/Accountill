@@ -49,7 +49,7 @@ export const signup = asyncHandler(async (req, res) => {
         name: `${firstName} ${lastName}`,
     });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email: result.email, id: result._id }, SECRET, { expiresIn: "1d" });
 
     //Sent HTTP only cookie
     res.cookie("token", token, {
@@ -90,7 +90,7 @@ export const signin = asyncHandler(async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
     //If credentials are valid, create a token for the user
-    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, SECRET, { expiresIn: "1d" });
 
     //Sent HTTP only cookie
     res.cookie("token", token, {

@@ -83,7 +83,7 @@ const Modal = ({ setOpen, open, invoice }) => {
         e.preventDefault();
         dispatch(updateInvoice(invoice._id, updatedInvoice)).then(() => {
             handleClickClose();
-            window.location.reload();
+            setRefetch((prev) => !prev);
         });
     };
 

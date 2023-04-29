@@ -6,17 +6,19 @@ dotenv.config();
 
 const auth = asyncHandler(async (req, res, next) => {
     try {
-        const token = req.headers.authorization;
-        // console.log(req.headers);
-        // const token = JSON.parse(localStorage.getItem("profile"))?.token;
+        // const token = req.headers.authorization;
+        const token = req.cookies.token;
         // console.log("Bearer ", token);
+        console.log("token", token);
 
         if (!token) {
             res.status(401);
-            console.log(res.statusCode);
-            throw new Error("Not authorized, please login");
+            throw new Error("Not authorized, Please login");
         }
 
+        //verify token
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("verified ", verified);
         let decodeData;
 
         //If token is custom token do this
@@ -31,8 +33,9 @@ const auth = asyncHandler(async (req, res, next) => {
 
         next();
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(401);
+        throw new Error("Not authorized, Please login");
     }
 });
 

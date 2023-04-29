@@ -17,7 +17,7 @@ const useRedirectLoggedOutUser = (path) => {
     useEffect(() => {
         const redirectLoogedOutUser =  () => {
             if (!isLoggedIn) {
-                toast.error("Not authorized, Please Login");
+                // toast.error("Not authorized, Please Login");
                 navigate(path);
                 return;
             }

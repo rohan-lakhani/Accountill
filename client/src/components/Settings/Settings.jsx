@@ -16,6 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import Spinner from "../Spinner/Spinner";
 
 import * as api from "../../api/index";
+import { toast } from "react-toastify";
 
 // const Styles = makeStyles(() => ({
 //     root: {
@@ -49,7 +50,7 @@ const Settings = () => {
                 setProfiles(data);
                 dispatch({ type: "FETCH_PROFILE_BY_USER", payload: data });
             } catch (error) {
-                console.log(error.response);
+                toast.error(error?.response?.data?.message);
             } finally {
                 dispatch({ type: "END_LOADING" });
             }

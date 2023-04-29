@@ -105,6 +105,7 @@ const InvoiceDetails = () => {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [refetch, setRefetch] = React.useState(false);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -155,7 +156,7 @@ const InvoiceDetails = () => {
 
     React.useEffect(() => {
         dispatch(getInvoice(id));
-    }, [id, dispatch, location]);
+    }, [id, dispatch, location, openn]);
 
     React.useEffect(() => {
         if (invoice) {
