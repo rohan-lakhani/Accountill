@@ -7,7 +7,7 @@ dotenv.config();
 const auth = asyncHandler(async (req, res, next) => {
     try {
         const token = req.headers.authorization;
-        console.log(req.headers);
+        // console.log(req.headers);
         // const token = JSON.parse(localStorage.getItem("profile"))?.token;
         console.log("Bearer ", token);
 
