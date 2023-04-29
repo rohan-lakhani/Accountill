@@ -6,8 +6,9 @@ dotenv.config();
 
 const auth = asyncHandler(async (req, res, next) => {
     try {
-        // const token = req.headers.authorization;
-        const token = req.cookies.token;
+        console.log(req.headers);
+        const token = req.headers.authorization;
+        // const token = req.cookies.token;
         // console.log("Bearer ", token);
         console.log("token", token);
 
