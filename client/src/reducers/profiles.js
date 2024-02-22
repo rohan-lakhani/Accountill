@@ -10,7 +10,7 @@ import {
     FETCH_PROFILE,
 } from "../actions/constants";
 
-const profiles = (state = { isLoading: true, profiles: [] }, action) => {
+const profiles = (state = { isLoading: false, profiles: [] }, action) => {
     switch (action.type) {
         case START_LOADING:
             return { ...state, isLoading: true };

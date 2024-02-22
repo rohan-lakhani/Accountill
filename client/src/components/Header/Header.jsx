@@ -1,8 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-
-import * as React from "react";
-import { useState } from "react";
 import { Box } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -14,42 +12,29 @@ import Logout from "@mui/icons-material/Logout";
 import { logoutUser } from "../../actions/auth";
 
 const Header = () => {
+    const [user, setUser] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-
     const location = useLocation();
 
-    React.useEffect(() => {
+    useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("profile")));
     }, [location]);
 
-    const logout = async (e) => {
+    const logout = async () => {
         await logoutUser();
         dispatch({ type: "LOGOUT" });
         navigate("/login");
         setUser(null);
     };
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
-    };
-
-    //hovering effect
-    const [isHovering, setIsHovering] = useState(false);
-
-    const handleMouseEnter = () => {
-        setIsHovering(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovering(false);
     };
 
     if (!user)
@@ -79,9 +64,11 @@ const Header = () => {
                 >
                     <Avatar
                         sx={{ width: 40, height: 40 }}
-                        style={{ marginTop: "-9px", fontWeight: "bold", backgroundColor: "rgb(0, 119, 255)" }}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
+                        style={{
+                            marginTop: "-9px",
+                            fontWeight: "bold",
+                            backgroundColor: "rgb(0, 119, 255)",
+                        }}
                     >
                         {user?.result?.name?.charAt(0)}
                     </Avatar>

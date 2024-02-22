@@ -37,6 +37,21 @@ app.use(
     })
 );
 
+//MONGODB CONNECTION
+mongoose.set("strictQuery", true);
+const MONGO_URL = process.env.MONGO_URL;
+mongoose
+    .connect(MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log("CONNECTION SUCCESSFULL...:)");
+    })
+    .catch((err) => {
+        console.log(err.message, "<-- Error From DB Connection");
+    });
+
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
@@ -118,21 +133,6 @@ app.get("/*", (req, res) => {
 
 //ERROR MIDDLEWARE
 app.use(errorHandler);
-
-//MONGODB CONNECTION
-mongoose.set("strictQuery", true);
-const MONGO_URL = process.env.MONGO_URL;
-mongoose
-    .connect(MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log("CONNECTION SUCCESSFULL...:)");
-    })
-    .catch((err) => {
-        console.log(err.message, "<-- Error From DB Connection");
-    });
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

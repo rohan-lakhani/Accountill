@@ -14,161 +14,161 @@ import Profile from "../models/profileModel.js";
 
 //SIGNUP USER
 export const signup = asyncHandler(async (req, res) => {
-    const { email, password, confirmPassword, firstName, lastName } = req.body;
+  const { email, password, confirmPassword, firstName, lastName } = req.body;
 
-    //validation
-    if (!email || !password) {
-        res.status(400);
-        throw new Error("Please fill all required fields");
-    }
-    if (password.length < 6) {
-        res.status(400);
-        throw new Error("Password must be up to 6 characters");
-    }
+  //validation
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please fill all required fields");
+  }
+  if (password.length < 6) {
+    res.status(400);
+    throw new Error("Password must be up to 6 characters");
+  }
 
-    //check if user email already exists
-    const existingUser = await User.findOne({ email });
-    //get userProfile and append to login auth detail
-    const userProfile = await Profile.findOne({ userId: existingUser?._id });
+  //check if user email already exists
+  const existingUser = await User.findOne({ email });
+  //get userProfile and append to login auth detail
+  // const userProfile = await Profile.findOne({ userId: existingUser?._id });
 
-    if (existingUser) {
-        res.status(400);
-        throw new Error("User already exist");
-    }
+  if (existingUser) {
+    res.status(400);
+    throw new Error("User already exist");
+  }
 
-    if (password !== confirmPassword) {
-        res.status(400);
-        throw new Error("Passwords don't match");
-    }
+  if (password !== confirmPassword) {
+    res.status(400);
+    throw new Error("Passwords don't match");
+  }
 
-    // const hashedPassword = await bcrypt.hash(password,12);
+  // const hashedPassword = await bcrypt.hash(password,12);
 
-    const result = await User.create({
-        email,
-        password,
-        name: `${firstName} ${lastName}`,
-    });
+  const result = await User.create({
+    email,
+    password,
+    name: `${firstName} ${lastName}`,
+  });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, SECRET, { expiresIn: "1h" });
+  const token = jwt.sign({ email: result.email, id: result._id }, SECRET, { expiresIn: "1h" });
 
+  if (result) {
     //Sent HTTP only cookie
     res.cookie("token", token, {
-        // expires: new Date(Date.now() + 1000 * 86400), // 1 Day
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 3600), // 1 Hour
+      // expires: new Date(Date.now() + 1000 * 86400), // 1 Day
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 3600), // 1 Hour
     });
 
-    if (result) {
-        res.status(200).json({ result, userProfile, token });
-    } else {
-        res.status(400);
-        throw new Error("Something went wrong");
-    }
+    res.status(200).json({ result, token });
+  } else {
+    res.status(400);
+    throw new Error("Something went wrong");
+  }
 });
 
 //SIGNIN USER
 export const signin = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    //validation
-    if (!email || !password) {
-        res.status(400);
-        throw new Error("Please add email and password");
-    }
+  //validation
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please add email and password");
+  }
 
-    //check user exists or not
-    const existingUser = await User.findOne({ email });
-    //get userProfile and append to login auth detail
-    const userProfile = await Profile.findOne({ userId: existingUser?._id });
+  //check user exists or not
+  const existingUser = await User.findOne({ email });
+  //get userProfile and append to login auth detail
+  // const userProfile = await Profile.findOne({ userId: existingUser?._id });
 
-    if (!existingUser) {
-        res.status(400);
-        throw new Error("User not found, please signup");
-    }
+  if (!existingUser) {
+    res.status(400);
+    throw new Error("User not found, please signup");
+  }
 
-    //user exist, compare password
-    const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+  //user exist, compare password
+  const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
 
-    //If credentials are valid, create a token for the user
-    const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, SECRET, { expiresIn: "1h" });
+  //If credentials are valid, create a token for the user
+  const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, SECRET, { expiresIn: "1h" });
 
+  //Then send the token to the client/frontend
+  if (existingUser && isPasswordCorrect) {
     //Sent HTTP only cookie
     res.cookie("token", token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 3600), // 1 Day
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 3600), // 1 Hour
+      // expires: new Date(Date.now() + 1000 * 3600), // 1 Day
     });
 
-    //Then send the token to the client/frontend
-    if (existingUser && isPasswordCorrect) {
-        res.status(200).json({
-            result: existingUser,
-            userProfile,
-            token,
-        });
-    } else {
-        res.status(400);
-        throw new Error("Invalid Email or Password");
-    }
+    res.status(200).json({
+      result: existingUser,
+      token,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid Email or Password");
+  }
 });
 
 //LOGOUT USER
 export const logoutUser = asyncHandler(async (req, res, next) => {
-    res.cookie("token", "", {
-        // path: "/",
-        httpOnly: true,
-        expires: new Date(0), //current second
-        // sameSite: "none",
-        // secure: true,
-    });
-    return res.status(200).json({ message: "Successfully Logged Out..." });
+  res.cookie("token", "", {
+    // path: "/",
+    httpOnly: true,
+    expires: new Date(0), //current second
+    // sameSite: "none",
+    // secure: true,
+  });
+  return res.status(200).json({ message: "Successfully Logged Out..." });
 });
 
 //GET LOGIN STATUS
 export const getLoginStatus = asyncHandler(async (req, res, next) => {
-    const token = req.cookies.token;
+  const token = req.cookies.token;
 
-    if (!token) {
-        return res.json(false);
-    }
-
-    //verify token
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (verified) {
-        return res.json(true);
-    }
+  if (!token) {
     return res.json(false);
+  }
+
+  //verify token
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+
+  if (verified) {
+    return res.json(true);
+  }
+  return res.json(false);
 });
 
 //FORGOT PASSWORD
 export const forgotPassword = asyncHandler(async (req, res) => {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
+  const { email } = req.body;
+  const user = await User.findOne({ email });
 
-    if (!user) {
-        res.status(404);
-        throw new Error("User does not exist");
-    }
+  if (!user) {
+    res.status(404);
+    throw new Error("User does not exist");
+  }
 
-    //Create reset token
-    let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+  //Create reset token
+  let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
 
-    //Hash token before saving to DB
-    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+  //Hash token before saving to DB
+  const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
-    //Construct Reset Url
-    // const resetUrl=`${process.env.FRONTEND_URL}/reset/${resetToken}`;
+  //Construct Reset Url
+  // const resetUrl=`${process.env.FRONTEND_URL}/reset/${resetToken}`;
 
-    user.resetToken = hashedToken;
-    user.expiresToken = Date.now() + 1 * 60 * 60 * 1000; // 1 Hour
+  user.resetToken = hashedToken;
+  user.expiresToken = Date.now() + 1 * 60 * 60 * 1000; // 1 Hour
 
-    const baseUrl = process.env.BASE_URL;
-    // const baseUrl = "http://localhost:3000"
+  const baseUrl = process.env.BASE_URL;
+  // const baseUrl = "http://localhost:3000"
 
-    await user.save();
+  await user.save();
 
-    //Reset Email
-    const message = `
+  //Reset Email
+  const message = `
         <h2>Hello ${user.name}</h2>
         <p>You requested for password reset from Arc Invoicing application</p>
         <p>This reset link is valid for only 30 minutes.</p>
@@ -179,50 +179,50 @@ export const forgotPassword = asyncHandler(async (req, res) => {
         <p>Regards...</p>
         <p>Accountill Team</p>
         `;
-    const subject = "Password Reset Request";
-    const send_to = user.email;
-    const sent_from = process.env.SMTP_USER;
+  const subject = "Password Reset Request";
+  const send_to = user.email;
+  const sent_from = process.env.SMTP_USER;
 
-    try {
-        await sendEmail(subject, message, send_to, sent_from);
-        res.status(200).json({ success: true, message: "Reset Email Sent..." });
-    } catch (error) {
-        console.log(error);
-        res.status(500);
-        throw new Error("Email not sent, please try again");
-    }
+  try {
+    await sendEmail(subject, message, send_to, sent_from);
+    res.status(200).json({ success: true, message: "Reset Email Sent..." });
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+    throw new Error("Email not sent, please try again");
+  }
 });
 
 export const resetPassword = asyncHandler(async (req, res) => {
-    const { password } = req.body;
-    const sentToken = req.body.token;
+  const { password } = req.body;
+  const sentToken = req.body.token;
 
-    if (!password) {
-        res.status(400);
-        throw new Error("Please provide new password");
-    }
-    if (password.length < 6) {
-        res.status(400);
-        throw new Error("Password must be up to 6 character");
-    }
+  if (!password) {
+    res.status(400);
+    throw new Error("Please provide new password");
+  }
+  if (password.length < 6) {
+    res.status(400);
+    throw new Error("Password must be up to 6 character");
+  }
 
-    //Hash token, then compare to Token in DB
-    const hashedToken = crypto.createHash("sha256").update(sentToken).digest("hex");
+  //Hash token, then compare to Token in DB
+  const hashedToken = crypto.createHash("sha256").update(sentToken).digest("hex");
 
-    //find user
-    const user = await User.findOne({ resetToken: hashedToken, expiresToken: { $gt: Date.now() } });
+  //find user
+  const user = await User.findOne({ resetToken: hashedToken, expiresToken: { $gt: Date.now() } });
 
-    if (!user) {
-        res.status(404);
-        throw new Error("Invalid or Expired Token");
-    }
+  if (!user) {
+    res.status(404);
+    throw new Error("Invalid or Expired Token");
+  }
 
-    user.password = password;
-    user.resetToken = undefined;
-    user.expireToken = undefined;
+  user.password = password;
+  user.resetToken = undefined;
+  user.expireToken = undefined;
 
-    await user.save();
-    res.status(200).json({
-        message: "Password updated Success, Please Login...",
-    });
+  await user.save();
+  res.status(200).json({
+    message: "Password updated Success, Please Login...",
+  });
 });

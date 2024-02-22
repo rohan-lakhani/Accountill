@@ -18,30 +18,30 @@ import Clients from "./components/Clients/Clients";
 import Settings from "./components/Settings/Settings";
 
 function App() {
-    return (
-        <div className="relative">
-            <BrowserRouter>
-                <ToastContainer />
-                <NavBar />
-                <Header />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" exact element={<Login />} />
-                    <Route path="/register" exact element={<Register />} />
-                    <Route path="/forgot" exact element={<Forgot />} />
-                    <Route path="/reset/:token" exact element={<Reset />} />
-                    <Route path="/dashboard" exact element={<Dashboard />} />
-                    <Route path="/invoices" exact element={<Invoices />} />
-                    <Route path="/customers" exact element={<Clients />} />
-                    <Route path="/settings" exact element={<Settings />} />
-                    <Route path="/invoice" exact element={<Invoice />} />
-                    <Route path="/invoice/:id" exact element={<InvoiceDetails />} />
-                    <Route path="/edit/invoice/:id" exact element={<Invoice />} />
-                </Routes>
-                <AddIconFooter />
-            </BrowserRouter>
-        </div>
-    );
+  return (
+    <div className="relative">
+      <BrowserRouter>
+        <ToastContainer />
+        <NavBar />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/register" exact element={<Register />} />
+          <Route path="/forgot" exact element={<Forgot />} />
+          <Route path="/reset/:token" exact element={<Reset />} />
+          <Route path="/dashboard" exact element={<Dashboard />} />
+          <Route path="/invoices" exact element={<Invoices />} />
+          <Route path="/customers" exact element={<Clients />} />
+          <Route path="/settings" exact element={<Settings />} />
+          <Route path="/invoice" exact element={<Invoice />} />
+          <Route path="/invoice/:id" exact element={<InvoiceDetails />} />
+          <Route path="/edit/invoice/:id" exact element={<Invoice />} />
+        </Routes>
+        <AddIconFooter />
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;

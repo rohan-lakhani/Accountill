@@ -9,7 +9,7 @@ import {
     FETCH_INVOICE_BY_USER,
 } from "../actions/constants";
 
-const invoices = (state = { isLoading: true, invoices: [] }, action) => {
+const invoices = (state = { isLoading: false, invoices: [] }, action) => {
     switch (action.type) {
         case START_LOADING:
             return { ...state, isLoading: true };

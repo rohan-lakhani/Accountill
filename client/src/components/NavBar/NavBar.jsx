@@ -1,6 +1,5 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import List from "@mui/material/List";
@@ -10,48 +9,33 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import AddIcon from "@mui/icons-material/Add";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-import { makeStyles } from "@mui/styles";
-import { useSelector } from "react-redux";
-
-const useStyles = makeStyles(() => ({
-    MuiListItemButton: {
-        backgroundColor: "red",
-    },
-}));
-
 const NavBar = () => {
     const location = useLocation();
-    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem("profile")));
-
-    React.useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("profile")));
-    }, [location]);
-
-    const classes = useStyles();
-
+    const [user, setUser] = React.useState();
     const [state, setState] = React.useState({
         top: false,
         left: false,
         bottom: false,
         right: false,
     });
+    const anchor = "left";
+
+    React.useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("profile")));
+    }, [location]);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
             return;
         }
-
         setState({ ...state, [anchor]: open });
     };
-
-    const anchor = "left";
 
     if (!user) return null;
 
@@ -69,7 +53,6 @@ const NavBar = () => {
                     <li className="my-6">
                         <DashboardCustomizeIcon style={{ fontSize: "30px" }} />
                     </li>
-                    {/* <li className='my-6'><AddIcon style={{fontSize:"30px"}}/></li> */}
                     <li className="my-6">
                         <DescriptionIcon style={{ fontSize: "30px" }} />
                     </li>
@@ -118,16 +101,6 @@ const NavBar = () => {
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
-
-                            {/* <ListItem disablePadding>
-                    <ListItemButton>
-                    <ListItemIcon>
-                        <AddIcon className='text-white'/>
-                    </ListItemIcon>
-                    <ListItemText primary="Create" />
-                    </ListItemButton>
-                </ListItem> */}
-
                             <Link to="/invoices">
                                 <ListItem disablePadding>
                                     <ListItemButton>
@@ -164,7 +137,6 @@ const NavBar = () => {
                     </Box>
                 </SwipeableDrawer>
             </React.Fragment>
-            {/* ))} */}
         </div>
     );
 };

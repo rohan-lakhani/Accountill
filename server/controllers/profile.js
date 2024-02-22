@@ -76,6 +76,7 @@ export const getProfilesByUser = asyncHandler(async (req, res) => {
     console.log(searchQuery);
 
     const profile = await Profile.findOne({ userId: searchQuery });
+    console.log(profile);
 
     if (profile) {
         res.json({ data: profile });

@@ -9,7 +9,7 @@ import {
     END_LOADING,
 } from "../actions/constants";
 
-const clients = (state = { isLoading: true, clients: [] }, action) => {
+const clients = (state = { isLoading: false, clients: [] }, action) => {
     switch (action.type) {
         case START_LOADING:
             return { ...state, isLoading: true };
