@@ -201,19 +201,7 @@ const InvoiceDetails = () => {
   }
 
   if (isLoading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          paddingTop: "20px",
-        }}
-      >
-        <Spinner />
-      </div>
-    );
+    return <Spinner />;
   }
 
   return (

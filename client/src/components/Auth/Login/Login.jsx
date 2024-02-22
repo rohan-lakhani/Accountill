@@ -39,11 +39,7 @@ const Login = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center flex-col pt-20">
-        <Spinner />
-      </div>
-    );
+    return <Spinner />;
   }
 
   return (

@@ -105,16 +105,12 @@ const Invoices = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center flex-col pt-20">
-        <Spinner />
-      </div>
-    );
+    return <Spinner />;
   }
 
   if (invoices.length === 0) {
     return (
-      <div className="flex items-center justify-center flex-col pt-20">
+      <div className="flex items-center justify-center flex-col" style={{ height: "calc(100vh - 55px)" }}>
         <img src={image_1} alt="emptyIcon" />
         <p style={{ color: "gray", textAlign: "center" }} className="text-xl">
           No invoice yet. Click the plus icon to add Invoice
